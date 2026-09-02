@@ -3,23 +3,6 @@ Cape Town · peer-to-peer event ticket resale, held safe in escrow
 
 ---
 
-## 0. Naming journey
-
-Kept for reference — the full set considered before landing on **Aftermarket**.
-
-**Round 1 — SA slang / street energy, trust wordplay, geography, mood:**
-Skarrel, Tjeka, Sharp, Ekse, Yebo, Middleman, Handoff, Stub, Passback, Holdup, Mothercity, Kloof, Long St, Sorted, Squad Up, Encore, Reup
-
-**Round 2 — circulation wordplay (the lane that stuck):**
-Rewind, Recirc, Regrant, Reroute, Rebound, Relay, Second Set, Restock, Refill, Rerun, Loopback
-
-**Round 3 — same lane, final push:**
-Resale Row, Turnstile, Reissue, Second Wind, Handback, Rebooked, Reclaim, Freshcopy, **Aftermarket**, Next Owner, Backdoor, Overflow, Repress
-
-**Final pick: Aftermarket** — blunt, industry-literal ("aftermarket parts/tickets"), reads as more grown-up and credible than the slang options, which matters for an app asking people to trust it with their money.
-
----
-
 ## 1. Brand identity
 
 **Colours**
