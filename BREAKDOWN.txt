@@ -1,0 +1,56 @@
+AFTERMARKET:
+BREAKDOWN:
+
+GENERAL DESCRIPTION: (cape town)
+> an app made for young adults to buy / sell tickets for events (a 3rd party resell platform).
+> the usp is the trust, when sellers list a ticket and a buyer wants it -> the buyer transfers the ticket/tickets to the app (3rd party account) and then funds are transferred.
+> buyers pay for tickets and they are held by the app until the ticket is confirmed
+> then sellers get paid, and buyers recieve there tickets via the platform they ahve bought it from
+> if a seller isnt able to sell a ticket it gets returned just before the event and if a buyers tickets dont get confirmed within a set time period the money gets sent back to them
+
+
+> the app needs to kinda replicate / and actually have accounts for the major event platforms and ticket providers in cape town
+> this way tickets can actually be transferred to and from the app / apps account with the platform providers
+
+> users should be able to explore ongoing events, search for events, and see all of there details and ticket options
+> users should be able to manage tickets they have (bought) or sell tickets / register a ticket for sale
+> users should be able to have an account they can customize (reviews from both end (buyers can review sellers and vice versa))
+> users should be able to follow / favourite event providers (to get notified on upcoming events and more) 
+> users should be able to add friends / follow sellers / other accounts
+
+
+home page: (disover events)
+-> users can put a location / dates in (or none)
+-> underneath that there should be event types in nice pill button options (such as 'all events' 'nightlife' 'festivals' 'live music' 'daylife')
+-> users can scroll through the different events (icon title and date/ location) and click in for more / greater details and informaiton (and foloow the account and or venue)
+-> from there they can see all the ticket options (either on sale or notify me) (these will have different types - such as available on (ticket provider/event company page), available (which would be the option to connect buyers with sellers) and it should display for each ticket type (eg: general access / vip) etc
+-> under all of that there should be more events (similiar
+
+-> sellers should be ranked by reputation / past sold tickets (eg: if a user has a great rating and sold lots of tickets they would be presented first)
+
+
+search page:
+-> search bar (search for events, organisers, or venues)
+-> allow users to search for current events etc
+
+
+tickets:
+-> upcoming / past booking (options presented on top of the page)
+-> then the event image behind a ticket / ticket type (different assets for differnt event types and ticket types (eg: cool design for vip / daytime events or night time events etc)
+
+
+profile: 
+-> here users can see there username (since date (since sign up))
+-> top right pencil icon to edit profile / information / gear icon for settings for the site / application / troubleshoot etc
+-> under the header type info, underneath they should be able to see there profile picture and banner image behind it
+-> underneath should be a display of where they are form (flag), then following / followers (can click in to see the list)
+-> underneath (events attended & tickets sold)
+-> under that an option to add friends and on the direct right of that a qr code option to get your profile qr code (logo underneath the qr), and then a share link / copy link button options
+
+-> then underneath profile icons of who the user follows (events / venues logos)
+-> then badges, users can aquire badges (for things like, first event attended, first ticket sold, venue hopper, double booker etc..)
+
+
+
+
+
