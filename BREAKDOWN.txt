@@ -51,6 +51,7 @@ profile:
 -> then badges, users can aquire badges (for things like, first event attended, first ticket sold, venue hopper, double booker etc..)
 
 
-
-
+DATA:
+ARCHITECTURE:
+AUTOMATION:
 
