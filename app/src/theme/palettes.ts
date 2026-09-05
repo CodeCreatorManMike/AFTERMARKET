@@ -25,25 +25,28 @@ export interface Palette {
 }
 
 export const lightPalette: Palette = {
+  // "Day" mode: Verified Lime as the page ground (not white/cream), Ink stays
+  // the text/structure color unchanged — same layout as dark mode, just the
+  // day-side of the brand's Ink/Lime pairing instead of a plain paper surface.
   scheme: 'light',
-  background: '#F5F0E6',
+  background: '#C6FF3D',
   ink: '#14102B',
   coral: '#FF5470',
   lime: '#C6FF3D',
   cream: '#F5F0E6',
 
-  surface: '#FFFDF8',
+  surface: '#B4EE2E',
   surfaceRaised: '#FFFFFF',
 
   textPrimary: '#14102B',
-  textSecondary: '#6F6A78',
-  textMuted: '#9993A0',
+  textSecondary: 'rgba(20,16,43,0.62)',
+  textMuted: 'rgba(20,16,43,0.4)',
 
-  border: 'rgba(20,16,43,0.14)',
-  borderStrong: 'rgba(20,16,43,0.28)',
+  border: 'rgba(20,16,43,0.16)',
+  borderStrong: 'rgba(20,16,43,0.3)',
 
-  coralSoft: 'rgba(255,84,112,0.12)',
-  limeSoft: 'rgba(198,255,61,0.16)',
+  coralSoft: 'rgba(255,84,112,0.14)',
+  limeSoft: 'rgba(20,16,43,0.08)',
 
   overlay: 'rgba(20,16,43,0.48)',
 
