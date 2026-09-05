@@ -96,6 +96,24 @@ export function HeartIcon({ size = 20, color = '#14102B', strokeWidth = 2, fille
   );
 }
 
+export function ClockIcon({ size = 18, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={12} cy={12} r={8.5} stroke={color} strokeWidth={strokeWidth} />
+      <Path d="M12 7.5V12l3.2 1.9" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function XIcon({ size = 16, color = '#14102B', strokeWidth = 2.2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Line x1={5} y1={5} x2={19} y2={19} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={19} y1={5} x2={5} y2={19} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
 export function ChevronDownIcon({ size = 14, color = '#14102B', strokeWidth = 2.2 }: IconProps) {
   return (
     <Svg {...base(size)} fill="none">

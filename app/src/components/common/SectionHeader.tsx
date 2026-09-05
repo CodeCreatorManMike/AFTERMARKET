@@ -3,7 +3,17 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { type, fonts } from '../../theme/typography';
 
-export function SectionHeader({ title, action }: { title: string; action?: string }) {
+export function SectionHeader({
+  title,
+  action,
+  onAction,
+  showArrow = true,
+}: {
+  title: string;
+  action?: string;
+  onAction?: () => void;
+  showArrow?: boolean;
+}) {
   const { colors } = useTheme();
   return (
     <View style={styles.row}>
@@ -11,8 +21,16 @@ export function SectionHeader({ title, action }: { title: string; action?: strin
         {title}
       </Text>
       {action ? (
-        <Pressable hitSlop={8} accessibilityRole="link" accessibilityLabel={`${action} ${title}`}>
-          <Text style={[styles.action, { color: colors.coral }]}>{action} →</Text>
+        <Pressable
+          onPress={onAction}
+          hitSlop={8}
+          accessibilityRole="link"
+          accessibilityLabel={`${action} ${title}`}
+        >
+          <Text style={[styles.action, { color: colors.coral }]}>
+            {action}
+            {showArrow ? ' →' : ''}
+          </Text>
         </Pressable>
       ) : null}
     </View>
