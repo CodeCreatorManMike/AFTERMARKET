@@ -11,7 +11,8 @@ import { CompactEventRow } from '../components/discovery/CompactEventRow';
 import { events } from '../data/events';
 
 const INITIAL_RECENT = ['Keinemusik', 'Cabo Beach Club', 'Ultra South Africa', 'The Jazz Room'];
-const POPULAR_IDS = ['e3', 'e2', 'e4', 'e6']; // Fisher, Keinemusik, RÜFÜS DU SOL, Paradise Club
+// Fisher, Keinemusik, RÜFÜS DU SOL, Paradise Club, Black Coffee, Origin Festival, Rocking the Daisies, Ultra SA
+const POPULAR_IDS = ['e3', 'e2', 'e4', 'e6', 'e1', 'e5', 'e11', 'e12'];
 
 export function SearchScreen() {
   const { colors } = useTheme();

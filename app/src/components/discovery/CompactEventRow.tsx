@@ -44,12 +44,13 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: 92,
-    gap: 12,
+    height: 72,
+    gap: 14,
+    marginBottom: 18,
   },
   thumb: {
-    width: 76,
-    height: 76,
+    width: 72,
+    height: 72,
     borderRadius: 10,
   },
   info: {
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.displayExtraBold,
-    fontSize: 17,
+    fontSize: 16,
   },
   venue: {
     fontFamily: fonts.mono,
@@ -69,8 +70,8 @@ const styles = StyleSheet.create({
     fontSize: 11.5,
   },
   favButton: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
     alignItems: 'center',
     justifyContent: 'center',
   },
