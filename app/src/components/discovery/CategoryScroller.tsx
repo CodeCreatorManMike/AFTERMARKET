@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { Pressable, ScrollView, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { categories } from '../../data/events';
 
-export function CategoryScroller() {
+export function CategoryScroller({ style }: { style?: StyleProp<ViewStyle> }) {
   const [active, setActive] = useState<string>('all');
   const { colors } = useTheme();
   return (
@@ -12,7 +12,7 @@ export function CategoryScroller() {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
-      style={styles.scroll}
+      style={[styles.scroll, style]}
       accessibilityRole="tablist"
     >
       {categories.map((c) => {

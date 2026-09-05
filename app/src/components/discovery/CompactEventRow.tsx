@@ -44,30 +44,30 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 72,
+    height: 84,
     gap: 14,
     marginBottom: 18,
   },
   thumb: {
-    width: 72,
-    height: 72,
-    borderRadius: 10,
+    width: 84,
+    height: 84,
+    borderRadius: 12,
   },
   info: {
     flex: 1,
-    gap: 2,
+    gap: 3,
   },
   title: {
     fontFamily: fonts.displayExtraBold,
-    fontSize: 16,
+    fontSize: 17.5,
   },
   venue: {
     fontFamily: fonts.mono,
-    fontSize: 12,
+    fontSize: 13,
   },
   date: {
     fontFamily: fonts.mono,
-    fontSize: 11.5,
+    fontSize: 12.5,
   },
   favButton: {
     width: 28,

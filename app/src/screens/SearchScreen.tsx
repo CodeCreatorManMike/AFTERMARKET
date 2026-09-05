@@ -32,10 +32,10 @@ export function SearchScreen() {
 
           <SearchField placeholder="Type to search..." />
 
-          <CategoryScroller />
+          <CategoryScroller style={styles.categories} />
 
           {recent.length > 0 && (
-            <View style={styles.section}>
+            <View style={[styles.section, styles.recentSection]}>
               <SectionHeader
                 title="Recent searches"
                 action="Clear all"
@@ -78,13 +78,19 @@ const styles = StyleSheet.create({
   },
   header: {
     marginTop: 4,
-    marginBottom: 28,
+    marginBottom: 18,
+  },
+  categories: {
+    marginBottom: 14,
   },
   section: {
-    marginTop: 30,
+    marginTop: 28,
+  },
+  recentSection: {
+    marginTop: 10,
   },
   recentList: {
-    marginTop: 12,
+    marginTop: 10,
   },
   popularList: {
     marginTop: 12,
