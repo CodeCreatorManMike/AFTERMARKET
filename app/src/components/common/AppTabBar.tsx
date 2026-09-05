@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '../../theme/colors';
+import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { HomeIcon, SearchIcon, TicketIcon, ProfileIcon } from './Icons';
 
@@ -16,11 +16,21 @@ const TABS: { key: TabKey; label: string; Icon: typeof HomeIcon }[] = [
 
 export function AppTabBar({ active }: { active: TabKey }) {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
   return (
-    <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+    <View
+      style={[
+        styles.wrap,
+        {
+          paddingBottom: Math.max(insets.bottom, 10),
+          borderTopColor: colors.border,
+          backgroundColor: colors.background,
+        },
+      ]}
+    >
       {TABS.map(({ key, label, Icon }) => {
         const isActive = key === active;
-        const tint = isActive ? colors.coral : `${colors.ink}A6`;
+        const tint = isActive ? colors.coral : colors.tabInactive;
         return (
           <Pressable key={key} style={styles.item} hitSlop={8}>
             <Icon size={24} color={tint} strokeWidth={isActive ? 2.3 : 2} />
@@ -38,8 +48,6 @@ const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
     borderTopWidth: 1,
-    borderTopColor: colors.border,
-    backgroundColor: colors.cream,
     paddingTop: 10,
     width: '100%',
   },

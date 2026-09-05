@@ -4,7 +4,7 @@
     {
       "name": "aftermarket-web",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd app && npx expo start --web"],
+      "runtimeArgs": ["-c", "cd app && EXPO_PACKAGER_HOSTNAME=100.83.205.36 npx expo start --host lan --clear"],
       "port": 8081
     }
   ]

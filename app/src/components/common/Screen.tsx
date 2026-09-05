@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors } from '../../theme/colors';
+import { useTheme } from '../../theme/ThemeContext';
 
 export function Screen({ children }: { children: React.ReactNode }) {
+  const { colors } = useTheme();
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
-      <View style={styles.outer}>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colors.background }]} edges={['top', 'left', 'right']}>
+      <View style={[styles.outer, { backgroundColor: colors.background }]}>
         <View style={styles.inner}>{children}</View>
       </View>
     </SafeAreaView>
@@ -16,12 +17,10 @@ export function Screen({ children }: { children: React.ReactNode }) {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.cream,
   },
   outer: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.cream,
   },
   inner: {
     flex: 1,

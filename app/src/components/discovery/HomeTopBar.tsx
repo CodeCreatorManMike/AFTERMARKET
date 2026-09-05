@@ -1,21 +1,35 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { colors } from '../../theme/colors';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
-import { ChevronDownIcon } from '../common/Icons';
+import { ChevronDownIcon, MoonIcon, SunIcon } from '../common/Icons';
+
+const LOGO = require('../../../assets/logo/aftermarket-mark.png');
 
 export function HomeTopBar({ city = 'CAPE TOWN' }: { city?: string }) {
+  const { colors, scheme, toggle } = useTheme();
   return (
     <View style={styles.row}>
-      <View style={styles.brand}>
-        <Text style={styles.brandA}>A</Text>
-        <Text style={styles.brandM}>M</Text>
-        <Text style={styles.brandArrow}>→</Text>
+      <Image source={LOGO} style={styles.brandMark} resizeMode="contain" />
+
+      <View style={styles.right}>
+        <Pressable
+          style={[styles.themeToggle, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={toggle}
+          hitSlop={8}
+        >
+          {scheme === 'dark' ? (
+            <SunIcon size={15} color={colors.lime} strokeWidth={2} />
+          ) : (
+            <MoonIcon size={15} color={colors.ink} strokeWidth={2} />
+          )}
+        </Pressable>
+
+        <Pressable style={styles.locationTrigger} hitSlop={8}>
+          <Text style={[styles.locationText, { color: colors.textPrimary }]}>{city}</Text>
+          <ChevronDownIcon size={13} color={colors.textPrimary} />
+        </Pressable>
       </View>
-      <Pressable style={styles.locationTrigger} hitSlop={8}>
-        <Text style={styles.locationText}>{city}</Text>
-        <ChevronDownIcon size={13} color={colors.ink} />
-      </Pressable>
     </View>
   );
 }
@@ -27,25 +41,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  brand: {
+  brandMark: {
+    width: 74,
+    height: 40,
+  },
+  right: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
   },
-  brandA: {
-    fontFamily: fonts.displayBlack,
-    fontSize: 24,
-    color: colors.coral,
-  },
-  brandM: {
-    fontFamily: fonts.displayBlack,
-    fontSize: 24,
-    color: colors.ink,
-  },
-  brandArrow: {
-    fontFamily: fonts.displayBlack,
-    fontSize: 18,
-    color: colors.lime,
-    marginLeft: 2,
+  themeToggle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   locationTrigger: {
     flexDirection: 'row',
@@ -56,6 +67,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.displayBold,
     fontSize: 12,
     letterSpacing: 0.4,
-    color: colors.ink,
   },
 });

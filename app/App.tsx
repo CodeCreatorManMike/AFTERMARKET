@@ -6,7 +6,17 @@ import { IBMPlexMono_400Regular, IBMPlexMono_500Medium } from '@expo-google-font
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { View } from 'react-native';
 import { HomeScreen } from './src/screens/HomeScreen';
-import { colors } from './src/theme/colors';
+import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
+
+function Root() {
+  const { scheme } = useTheme();
+  return (
+    <>
+      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+      <HomeScreen />
+    </>
+  );
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,13 +31,14 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <View style={{ flex: 1, backgroundColor: colors.cream }} />;
+    return <View style={{ flex: 1, backgroundColor: '#F5F0E6' }} />;
   }
 
   return (
     <SafeAreaProvider>
-      <StatusBar style="dark" />
-      <HomeScreen />
+      <ThemeProvider>
+        <Root />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

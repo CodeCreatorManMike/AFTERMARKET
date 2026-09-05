@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { colors } from '../../theme/colors';
+import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { EventItem } from '../../data/events';
 import { HeartIcon } from '../common/Icons';
 
 export function EventCard({ event, featured = false }: { event: EventItem; featured?: boolean }) {
   const [favorited, setFavorited] = useState(!!event.favorited);
+  const { colors } = useTheme();
   return (
-    <View style={styles.card}>
-      <View style={[styles.imageWrap, { height: featured ? 250 : 180 }]}>
+    <View style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}>
+      <View style={[styles.imageWrap, { height: featured ? 250 : 180, backgroundColor: colors.ink }]}>
         <Image source={event.image} style={styles.image} resizeMode="cover" />
         <Pressable style={styles.favButton} onPress={() => setFavorited((f) => !f)} hitSlop={8}>
           <HeartIcon size={18} color={favorited ? colors.coral : colors.cream} filled={favorited} strokeWidth={2} />
@@ -17,20 +18,20 @@ export function EventCard({ event, featured = false }: { event: EventItem; featu
       </View>
 
       <View style={styles.meta}>
-        <View style={styles.dateBadge}>
-          <Text style={styles.dateDay}>{event.day}</Text>
-          <Text style={styles.dateNum}>{event.date}</Text>
-          <Text style={styles.dateMonth}>{event.month}</Text>
+        <View style={[styles.dateBadge, { borderRightColor: colors.border }]}>
+          <Text style={[styles.dateDay, { color: colors.textSecondary }]}>{event.day}</Text>
+          <Text style={[styles.dateNum, { color: colors.textPrimary }]}>{event.date}</Text>
+          <Text style={[styles.dateMonth, { color: colors.textSecondary }]}>{event.month}</Text>
         </View>
 
         <View style={styles.info}>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text style={[styles.title, { color: colors.textPrimary }]} numberOfLines={1}>
             {event.title}
           </Text>
-          <Text style={styles.venue} numberOfLines={1}>
+          <Text style={[styles.venue, { color: colors.textSecondary }]} numberOfLines={1}>
             {event.venue} · {event.city}
           </Text>
-          <Text style={styles.tag}>{event.categoryLabel}</Text>
+          <Text style={[styles.tag, { color: colors.textMuted }]}>{event.categoryLabel}</Text>
         </View>
       </View>
     </View>
@@ -42,14 +43,11 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surfaceRaised,
     marginBottom: 16,
   },
   imageWrap: {
     width: '100%',
     position: 'relative',
-    backgroundColor: colors.ink,
   },
   image: {
     width: '100%',
@@ -75,24 +73,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 14,
     borderRightWidth: 1,
-    borderRightColor: colors.border,
   },
   dateDay: {
     fontFamily: fonts.mono,
     fontSize: 11,
-    color: colors.textSecondary,
     letterSpacing: 0.5,
   },
   dateNum: {
     fontFamily: fonts.displayExtraBold,
     fontSize: 26,
-    color: colors.ink,
     lineHeight: 30,
   },
   dateMonth: {
     fontFamily: fonts.mono,
     fontSize: 11,
-    color: colors.textSecondary,
     letterSpacing: 0.5,
   },
   info: {
@@ -105,17 +99,14 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.displayExtraBold,
     fontSize: 19,
-    color: colors.ink,
   },
   venue: {
     fontFamily: fonts.mono,
     fontSize: 12,
-    color: colors.textSecondary,
   },
   tag: {
     fontFamily: fonts.mono,
     fontSize: 11,
-    color: colors.textMuted,
     marginTop: 2,
   },
 });

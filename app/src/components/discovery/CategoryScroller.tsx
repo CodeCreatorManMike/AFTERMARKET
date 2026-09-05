@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
-import { colors } from '../../theme/colors';
+import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { categories } from '../../data/events';
 
 export function CategoryScroller() {
   const [active, setActive] = useState<string>('all');
+  const { colors } = useTheme();
   return (
     <ScrollView
       horizontal
@@ -19,9 +20,22 @@ export function CategoryScroller() {
           <Pressable
             key={c.key}
             onPress={() => setActive(c.key)}
-            style={[styles.chip, isActive ? styles.chipActive : styles.chipInactive]}
+            style={[
+              styles.chip,
+              isActive
+                ? { backgroundColor: colors.coral }
+                : { backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.border },
+            ]}
           >
-            <Text style={[styles.chipText, isActive && styles.chipTextActive]}>{c.label}</Text>
+            <Text
+              style={[
+                styles.chipText,
+                { color: isActive ? '#14102B' : colors.textPrimary },
+                isActive && styles.chipTextActive,
+              ]}
+            >
+              {c.label}
+            </Text>
           </Pressable>
         );
       })}
@@ -44,21 +58,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  chipActive: {
-    backgroundColor: colors.coral,
-  },
-  chipInactive: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
   chipText: {
     fontFamily: fonts.bodyMedium,
     fontSize: 13.5,
-    color: colors.ink,
   },
   chipTextActive: {
     fontFamily: fonts.bodySemiBold,
-    color: colors.ink,
   },
 });

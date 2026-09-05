@@ -103,3 +103,34 @@ export function ChevronDownIcon({ size = 14, color = '#14102B', strokeWidth = 2.
     </Svg>
   );
 }
+
+export function SunIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={12} cy={12} r={4.4} stroke={color} strokeWidth={strokeWidth} />
+      <Line x1={12} y1={2.5} x2={12} y2={5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={12} y1={19} x2={12} y2={21.5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={2.5} y1={12} x2={5} y2={12} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={19} y1={12} x2={21.5} y2={12} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={5.1} y1={5.1} x2={6.8} y2={6.8} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={17.2} y1={17.2} x2={18.9} y2={18.9} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={5.1} y1={18.9} x2={6.8} y2={17.2} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={17.2} y1={6.8} x2={18.9} y2={5.1} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function MoonIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path
+        d="M20 13.5A8.5 8.5 0 1110.5 4a6.8 6.8 0 009.5 9.5z"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+        fill={color}
+        fillOpacity={0.06}
+      />
+    </Svg>
+  );
+}
