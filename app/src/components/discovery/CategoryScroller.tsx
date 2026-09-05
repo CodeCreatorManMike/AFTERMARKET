@@ -13,6 +13,7 @@ export function CategoryScroller() {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
       style={styles.scroll}
+      accessibilityRole="tablist"
     >
       {categories.map((c) => {
         const isActive = c.key === active;
@@ -26,6 +27,9 @@ export function CategoryScroller() {
                 ? { backgroundColor: colors.coral }
                 : { backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.border },
             ]}
+            accessibilityRole="tab"
+            accessibilityLabel={c.label}
+            accessibilityState={{ selected: isActive }}
           >
             <Text
               style={[

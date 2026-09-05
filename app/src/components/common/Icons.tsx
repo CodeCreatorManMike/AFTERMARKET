@@ -134,3 +134,17 @@ export function MoonIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: Icon
     </Svg>
   );
 }
+
+export function GearIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={12} cy={12} r={3} stroke={color} strokeWidth={strokeWidth} />
+      <Path
+        d="M12 3.5v2.1M12 18.4v2.1M20.5 12h-2.1M5.6 12H3.5M17.7 6.3l-1.5 1.5M7.8 16.2l-1.5 1.5M17.7 17.7l-1.5-1.5M7.8 7.8L6.3 6.3"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+}

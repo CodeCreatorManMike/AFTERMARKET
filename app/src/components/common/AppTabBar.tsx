@@ -32,7 +32,14 @@ export function AppTabBar({ active }: { active: TabKey }) {
         const isActive = key === active;
         const tint = isActive ? colors.coral : colors.tabInactive;
         return (
-          <Pressable key={key} style={styles.item} hitSlop={8}>
+          <Pressable
+            key={key}
+            style={styles.item}
+            hitSlop={8}
+            accessibilityRole="tab"
+            accessibilityLabel={label}
+            accessibilityState={{ selected: isActive }}
+          >
             <Icon size={24} color={tint} strokeWidth={isActive ? 2.3 : 2} />
             <Text style={[styles.label, { color: tint }]}>{label}</Text>
           </Pressable>

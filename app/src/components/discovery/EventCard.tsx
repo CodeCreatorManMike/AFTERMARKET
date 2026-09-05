@@ -11,20 +11,38 @@ export function EventCard({ event, featured = false }: { event: EventItem; featu
   return (
     <View style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}>
       <View style={[styles.imageWrap, { height: featured ? 250 : 180, backgroundColor: colors.ink }]}>
-        <Image source={event.image} style={styles.image} resizeMode="cover" />
-        <Pressable style={styles.favButton} onPress={() => setFavorited((f) => !f)} hitSlop={8}>
+        <Image
+          source={event.image}
+          style={styles.image}
+          resizeMode="cover"
+          accessible
+          accessibilityRole="image"
+          accessibilityLabel={`${event.title} at ${event.venue}, ${event.city}`}
+        />
+        <Pressable
+          style={styles.favButton}
+          onPress={() => setFavorited((f) => !f)}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={favorited ? 'Remove from favourites' : 'Add to favourites'}
+          accessibilityState={{ selected: favorited }}
+        >
           <HeartIcon size={18} color={favorited ? colors.coral : colors.cream} filled={favorited} strokeWidth={2} />
         </Pressable>
       </View>
 
-      <View style={styles.meta}>
-        <View style={[styles.dateBadge, { borderRightColor: colors.border }]}>
+      <View
+        style={styles.meta}
+        accessible
+        accessibilityLabel={`${event.title}, ${event.categoryLabel}, ${event.venue}, ${event.city}, ${event.day} ${event.date} ${event.month}, from R${event.priceFrom}`}
+      >
+        <View style={[styles.dateBadge, { borderRightColor: colors.border }]} importantForAccessibility="no">
           <Text style={[styles.dateDay, { color: colors.textSecondary }]}>{event.day}</Text>
           <Text style={[styles.dateNum, { color: colors.textPrimary }]}>{event.date}</Text>
           <Text style={[styles.dateMonth, { color: colors.textSecondary }]}>{event.month}</Text>
         </View>
 
-        <View style={styles.info}>
+        <View style={styles.info} importantForAccessibility="no">
           <Text style={[styles.title, { color: colors.textPrimary }]} numberOfLines={1}>
             {event.title}
           </Text>

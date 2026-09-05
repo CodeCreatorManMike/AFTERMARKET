@@ -2,32 +2,63 @@ import React from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
-import { ChevronDownIcon, MoonIcon, SunIcon } from '../common/Icons';
+import { GearIcon, MoonIcon, SunIcon } from '../common/Icons';
 
 const LOGO = require('../../../assets/logo/aftermarket-mark.png');
 
-export function HomeTopBar({ city = 'CAPE TOWN' }: { city?: string }) {
+export function HomeTopBar({ onOpenSettings }: { onOpenSettings?: () => void }) {
   const { colors, scheme, toggle } = useTheme();
+  const isDark = scheme === 'dark';
+
   return (
     <View style={styles.row}>
-      <Image source={LOGO} style={styles.brandMark} resizeMode="contain" />
+      <Image
+        source={LOGO}
+        style={styles.brandMark}
+        resizeMode="contain"
+        accessible
+        accessibilityRole="image"
+        accessibilityLabel="Aftermarket"
+      />
 
       <View style={styles.right}>
-        <Pressable
-          style={[styles.themeToggle, { backgroundColor: colors.surface, borderColor: colors.border }]}
-          onPress={toggle}
-          hitSlop={8}
+        <View
+          style={[styles.dayNight, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          accessible
+          accessibilityRole="switch"
+          accessibilityLabel="Appearance"
+          accessibilityValue={{ text: isDark ? 'Night' : 'Day' }}
+          accessibilityState={{ checked: isDark }}
+          accessibilityHint="Double tap to switch between day and night mode"
         >
-          {scheme === 'dark' ? (
-            <SunIcon size={15} color={colors.lime} strokeWidth={2} />
-          ) : (
-            <MoonIcon size={15} color={colors.ink} strokeWidth={2} />
-          )}
-        </Pressable>
+          <Pressable
+            onPress={() => isDark && toggle()}
+            hitSlop={6}
+            style={[styles.dayNightHalf, !isDark && { backgroundColor: colors.coral }]}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <SunIcon size={14} color={!isDark ? '#14102B' : colors.textMuted} strokeWidth={2} />
+          </Pressable>
+          <Pressable
+            onPress={() => !isDark && toggle()}
+            hitSlop={6}
+            style={[styles.dayNightHalf, isDark && { backgroundColor: colors.lime }]}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <MoonIcon size={14} color={isDark ? '#14102B' : colors.textMuted} strokeWidth={2} />
+          </Pressable>
+        </View>
 
-        <Pressable style={styles.locationTrigger} hitSlop={8}>
-          <Text style={[styles.locationText, { color: colors.textPrimary }]}>{city}</Text>
-          <ChevronDownIcon size={13} color={colors.textPrimary} />
+        <Pressable
+          style={[styles.iconButton, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          onPress={onOpenSettings}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel="Settings"
+        >
+          <GearIcon size={17} color={colors.textPrimary} />
         </Pressable>
       </View>
     </View>
@@ -50,22 +81,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  themeToggle: {
+  dayNight: {
+    flexDirection: 'row',
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 3,
+    gap: 2,
+  },
+  dayNightHalf: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconButton: {
     width: 32,
     height: 32,
     borderRadius: 16,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  locationTrigger: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  locationText: {
-    fontFamily: fonts.displayBold,
-    fontSize: 12,
-    letterSpacing: 0.4,
   },
 });

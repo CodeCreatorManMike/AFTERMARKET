@@ -7,9 +7,11 @@ export function SectionHeader({ title, action }: { title: string; action?: strin
   const { colors } = useTheme();
   return (
     <View style={styles.row}>
-      <Text style={[type.sectionTitle, { color: colors.textPrimary }]}>{title}</Text>
+      <Text style={[type.sectionTitle, { color: colors.textPrimary }]} accessibilityRole="header">
+        {title}
+      </Text>
       {action ? (
-        <Pressable hitSlop={8}>
+        <Pressable hitSlop={8} accessibilityRole="link" accessibilityLabel={`${action} ${title}`}>
           <Text style={[styles.action, { color: colors.coral }]}>{action} →</Text>
         </Pressable>
       ) : null}
