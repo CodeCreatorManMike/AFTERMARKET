@@ -11,7 +11,7 @@ const NOTCH_SIZE = 20;
 function variantStyle(variant: TicketVariant, colors: ReturnType<typeof useTheme>['colors']) {
   switch (variant) {
     case 'general':
-      return { bg: colors.coral, text: '#14102B', sub: 'rgba(20,16,43,0.65)', dash: 'rgba(20,16,43,0.35)' };
+      return { bg: colors.coral, text: '#FFFFFF', sub: 'rgba(255,255,255,0.78)', dash: 'rgba(255,255,255,0.4)' };
     case 'vip':
       return { bg: colors.ink, text: colors.lime, sub: 'rgba(245,240,230,0.7)', dash: 'rgba(245,240,230,0.35)' };
     case 'verified':
@@ -21,12 +21,12 @@ function variantStyle(variant: TicketVariant, colors: ReturnType<typeof useTheme
   }
 }
 
-export function TicketStub({ ticket, muted = false }: { ticket: TicketItem; muted?: boolean }) {
+export function TicketStub({ ticket }: { ticket: TicketItem }) {
   const { colors } = useTheme();
   const v = variantStyle(ticket.variant, colors);
 
   return (
-    <View style={[styles.stub, { backgroundColor: v.bg, opacity: muted ? 0.72 : 1 }]}>
+    <View style={[styles.stub, { backgroundColor: v.bg }]}>
       <View style={[styles.notch, styles.notchTop, { backgroundColor: colors.background }]} />
       <View style={[styles.notch, styles.notchBottom, { backgroundColor: colors.background }]} />
 
@@ -94,25 +94,25 @@ const styles = StyleSheet.create({
   },
   code: {
     fontFamily: fonts.mono,
-    fontSize: 11.5,
+    fontSize: 13,
     letterSpacing: 0.5,
-    marginBottom: 6,
+    marginBottom: 7,
   },
   eventTitle: {
     fontFamily: fonts.displayExtraBold,
-    fontSize: 20,
-    lineHeight: 23,
+    fontSize: 24,
+    lineHeight: 27,
   },
   typeLabel: {
     fontFamily: fonts.mono,
-    fontSize: 12.5,
-    marginTop: 3,
+    fontSize: 14,
+    marginTop: 4,
     letterSpacing: 0.4,
   },
   venue: {
     fontFamily: fonts.mono,
-    fontSize: 11.5,
-    lineHeight: 16,
+    fontSize: 13,
+    lineHeight: 18,
   },
   dashLine: {
     width: 1,
