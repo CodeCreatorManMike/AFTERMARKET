@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aftermarket-web",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd app && npx expo start --web"],
+      "port": 8081
+    }
+  ]
+}
