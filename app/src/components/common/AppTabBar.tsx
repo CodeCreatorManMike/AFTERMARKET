@@ -14,7 +14,7 @@ const TABS: { key: TabKey; label: string; Icon: typeof HomeIcon }[] = [
   { key: 'profile', label: 'Profile', Icon: ProfileIcon },
 ];
 
-export function AppTabBar({ active }: { active: TabKey }) {
+export function AppTabBar({ active, onChange }: { active: TabKey; onChange?: (key: TabKey) => void }) {
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
   return (
@@ -36,6 +36,7 @@ export function AppTabBar({ active }: { active: TabKey }) {
             key={key}
             style={styles.item}
             hitSlop={8}
+            onPress={() => onChange?.(key)}
             accessibilityRole="tab"
             accessibilityLabel={label}
             accessibilityState={{ selected: isActive }}

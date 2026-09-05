@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
-import { Appearance } from 'react-native';
 import { Palette, palettes } from './palettes';
 
 interface ThemeContextValue {
@@ -12,9 +11,9 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [scheme, setScheme] = useState<'light' | 'dark'>(
-    Appearance.getColorScheme() === 'dark' ? 'dark' : 'light'
-  );
+  // Night (dark) is Aftermarket's standard mode — the brand lives on Ink.
+  // Day mode is an explicit opt-in via the toggle, not inferred from system appearance.
+  const [scheme, setScheme] = useState<'light' | 'dark'>('dark');
 
   const value = useMemo<ThemeContextValue>(
     () => ({

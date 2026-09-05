@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Screen } from '../components/common/Screen';
-import { AppTabBar, TAB_BAR_HEIGHT } from '../components/common/AppTabBar';
 import { HomeTopBar } from '../components/discovery/HomeTopBar';
 import { Hero } from '../components/discovery/Hero';
 import { SearchField } from '../components/discovery/SearchField';
@@ -16,7 +15,7 @@ export function HomeScreen() {
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.scroll, { paddingBottom: TAB_BAR_HEIGHT + 24 }]}
+        contentContainerStyle={[styles.scroll, { paddingBottom: 24 }]}
       >
         <View style={styles.page}>
           <HomeTopBar />
@@ -36,8 +35,6 @@ export function HomeScreen() {
           ))}
         </View>
       </ScrollView>
-
-      <AppTabBar active="home" />
     </Screen>
   );
 }
