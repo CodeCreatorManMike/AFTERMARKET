@@ -20,7 +20,7 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
         const Icon = ICONS[b.icon];
         return (
           <View key={b.id} style={styles.cardWrap}>
-            <View style={[styles.card, { backgroundColor: b.bg }]}>
+            <View style={[styles.card, { backgroundColor: b.bg, borderColor: colors.border }]}>
               <Icon size={24} color={b.iconColor} />
             </View>
             <Text style={[styles.label, { color: colors.textSecondary }]} numberOfLines={2}>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     width: '100%',
     aspectRatio: 1,
     borderRadius: 14,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

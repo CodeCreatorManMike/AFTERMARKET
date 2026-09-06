@@ -20,7 +20,7 @@ export function ProfileActions() {
       </Pressable>
 
       <Pressable
-        style={[styles.iconButton, { borderColor: colors.border, backgroundColor: colors.surface }]}
+        style={[styles.iconButton, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}
         accessibilityRole="button"
         accessibilityLabel="Show profile QR code"
       >
@@ -28,7 +28,7 @@ export function ProfileActions() {
       </Pressable>
 
       <Pressable
-        style={[styles.iconButton, { borderColor: colors.border, backgroundColor: colors.surface }]}
+        style={[styles.iconButton, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}
         accessibilityRole="button"
         accessibilityLabel="Copy profile link"
       >
