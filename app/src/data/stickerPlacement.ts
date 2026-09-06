@@ -42,33 +42,59 @@ function placement(stickerIndex: number, rng: () => number): PlacedSticker {
   };
 }
 
+// Draws the next sticker index from `pool` starting at `cursor`, skipping
+// past (via swap, not removal — keeps the rest of the shuffle intact) any
+// index in `avoid`. Reshuffles (excluding `avoid` where possible) once the
+// pool runs out.
+function drawNext(pool: number[], cursor: { i: number }, rng: () => number, avoid: Set<number>): number {
+  if (cursor.i >= pool.length) {
+    pool.splice(0, pool.length, ...shuffled(stickers.length, rng));
+    cursor.i = 0;
+  }
+  let j = cursor.i;
+  while (avoid.has(pool[j]) && j < pool.length - 1) {
+    j += 1;
+  }
+  const value = pool[j];
+  pool[j] = pool[cursor.i];
+  pool[cursor.i] = value;
+  cursor.i += 1;
+  return value;
+}
+
 // Assigns 1, 2, or (occasionally) 3 stickers per ticket, drawing from a
 // shuffled, non-repeating pool so nearby tickets on the same page don't
 // get handed the same sticker image — only reshuffling (and therefore
 // allowing a repeat) once every unique sticker has been used at least
-// once, since a long enough list will always outrun a finite pool.
+// once, since a long enough list will always outrun a finite pool. Also
+// explicitly avoids handing a ticket any sticker its immediately
+// preceding neighbor got, so the same artwork never lands on two
+// adjacent cards.
 export function assignStickers(ticketIds: string[]): Record<string, PlacedSticker[]> {
   // Re-seeded from true randomness on every call (i.e. every app
   // load/reload), so sticker choice/size/rotation/position are always
   // different — not tied to the ticket ids, which never change.
   const rng = mulberry32(Math.floor(Math.random() * 2 ** 31) || 1);
-  let pool = shuffled(stickers.length, rng);
-  let cursor = 0;
+  const pool = shuffled(stickers.length, rng);
+  const cursor = { i: 0 };
 
   const result: Record<string, PlacedSticker[]> = {};
+  let previousIndices = new Set<number>();
+
   for (const id of ticketIds) {
     const roll = rng();
     const count = roll < 0.12 ? 3 : roll < 0.45 ? 2 : 1;
     const placements: PlacedSticker[] = [];
+    const currentIndices = new Set<number>();
+
     for (let k = 0; k < count; k++) {
-      if (cursor >= pool.length) {
-        pool = shuffled(stickers.length, rng);
-        cursor = 0;
-      }
-      placements.push(placement(pool[cursor], rng));
-      cursor += 1;
+      const stickerIndex = drawNext(pool, cursor, rng, previousIndices);
+      currentIndices.add(stickerIndex);
+      placements.push(placement(stickerIndex, rng));
     }
+
     result[id] = placements;
+    previousIndices = currentIndices;
   }
   return result;
 }
