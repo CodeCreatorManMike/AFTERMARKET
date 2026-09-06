@@ -36,7 +36,7 @@ function placement(stickerIndex: number, rng: () => number): PlacedSticker {
   return {
     source: stickers[stickerIndex],
     rotation: -60 + rng() * 120,
-    size: 90 + rng() * 190,
+    size: 140 + rng() * 220,
     topPct: biased(50, 150),
     leftPct: biased(32, 150),
   };
