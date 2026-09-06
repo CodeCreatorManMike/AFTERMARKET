@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
-import { TicketIcon } from '../common/Icons';
+import { DiagonalArrowIcon, TicketIcon } from '../common/Icons';
 
 export function ProfileActivityStats({ eventsAttended, ticketsSold }: { eventsAttended: number; ticketsSold: number }) {
   const { colors } = useTheme();
@@ -18,7 +18,7 @@ export function ProfileActivityStats({ eventsAttended, ticketsSold }: { eventsAt
       <View style={[styles.centerDivider, { backgroundColor: colors.border }]} />
       <View style={styles.stat}>
         <View style={styles.statTop}>
-          <TicketIcon size={18} color={colors.textPrimary} />
+          <DiagonalArrowIcon size={18} color={colors.textPrimary} />
           <Text style={[styles.value, { color: colors.textPrimary }]}>{ticketsSold}</Text>
         </View>
         <Text style={[styles.label, { color: colors.textSecondary }]}>Tickets sold</Text>

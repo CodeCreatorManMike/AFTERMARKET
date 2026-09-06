@@ -236,6 +236,37 @@ export function DiagonalArrowIcon({ size = 24, color = '#14102B', strokeWidth = 
   );
 }
 
+export function QRIcon({ size = 24, color = '#14102B' }: IconProps) {
+  const Block = ({ x, y, w, h }: { x: number; y: number; w: number; h: number }) => (
+    <Path d={`M${x} ${y}h${w}v${h}h${-w}z`} fill={color} />
+  );
+  return (
+    <Svg {...base(size)} fill="none">
+      {/* top-left finder */}
+      <Path d="M2 2h7v7H2z" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+      <Block x={4.2} y={4.2} w={2.6} h={2.6} />
+      {/* top-right finder */}
+      <Path d="M15 2h7v7h-7z" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+      <Block x={17.2} y={4.2} w={2.6} h={2.6} />
+      {/* bottom-left finder */}
+      <Path d="M2 15h7v7H2z" stroke={color} strokeWidth={1.8} strokeLinejoin="round" />
+      <Block x={4.2} y={17.2} w={2.6} h={2.6} />
+      {/* scattered data modules */}
+      <Block x={11} y={2} w={2} h={2} />
+      <Block x={11} y={5.5} w={2} h={2} />
+      <Block x={11} y={11} w={2} h={2} />
+      <Block x={15} y={11} w={2} h={2} />
+      <Block x={19} y={11} w={2} h={2} />
+      <Block x={15} y={15} w={2} h={2} />
+      <Block x={11} y={15} w={2} h={2} />
+      <Block x={11} y={19} w={2} h={2} />
+      <Block x={15} y={19} w={2} h={2} />
+      <Block x={19} y={19} w={2} h={2} />
+      <Block x={19} y={15} w={2} h={2} />
+    </Svg>
+  );
+}
+
 export function GearIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
   return (
     <Svg {...base(size)} fill="none">

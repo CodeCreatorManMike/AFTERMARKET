@@ -9,7 +9,7 @@ import { ProfileActivityStats } from '../components/profile/ProfileActivityStats
 import { ProfileActions } from '../components/profile/ProfileActions';
 import { FollowingScroller } from '../components/profile/FollowingScroller';
 import { BadgeGrid } from '../components/profile/BadgeGrid';
-import { profile, followedEntities, badges } from '../data/profile';
+import { profile, followedEntities, earnedBadges } from '../data/profile';
 import { useOverlay } from '../navigation/OverlayContext';
 
 export function ProfileScreen() {
@@ -42,7 +42,7 @@ export function ProfileScreen() {
           <View style={styles.section}>
             <SectionHeader title="Badges" action="See all" />
             <View style={styles.badgeList}>
-              <BadgeGrid badges={badges} />
+              <BadgeGrid badges={earnedBadges(profile.earnedBadgeIds).slice(0, 4)} />
             </View>
           </View>
         </View>
