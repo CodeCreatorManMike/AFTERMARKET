@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.aftermarket.app"
+      "bundleIdentifier": "com.codecreatormanmike.aftermarket"
     },
     "android": {
       "adaptiveIcon": {
