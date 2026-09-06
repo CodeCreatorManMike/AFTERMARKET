@@ -16,7 +16,10 @@ export function SpinningStamp({ source, size = 68 }: { source: number; size?: nu
         toValue: 1,
         duration: SPIN_MS,
         easing: Easing.linear,
-        useNativeDriver: true,
+        // react-native-web has no native animated driver — asking for
+        // one just produces a console warning and a JS-driver fallback
+        // anyway, so ask for the JS driver directly.
+        useNativeDriver: false,
       })
     );
     loop.start();
