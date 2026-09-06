@@ -29,20 +29,24 @@ function shuffled(length: number, rng: () => number): number[] {
 }
 
 function placement(stickerIndex: number, rng: () => number): PlacedSticker {
-  const centerBias = () => 50 + ((rng() + rng()) / 2 - 0.5) * 140;
+  // Biased toward the left/centre — over the ticket text, not tucked
+  // away by the QR side — while the wide spread still lets it land
+  // anywhere, including mostly off-card.
+  const biased = (center: number, spread: number) => center + ((rng() + rng()) / 2 - 0.5) * spread;
   return {
     source: stickers[stickerIndex],
-    rotation: -55 + rng() * 110,
+    rotation: -60 + rng() * 120,
     size: 90 + rng() * 190,
-    topPct: centerBias(),
-    leftPct: centerBias(),
+    topPct: biased(50, 150),
+    leftPct: biased(32, 150),
   };
 }
 
-// Assigns 1 or 2 stickers per ticket (id order matters for stability),
-// drawing from a shuffled, non-repeating pool so no two tickets on the
-// same page ever get the same sticker image — only reshuffling (and
-// therefore allowing a repeat) if we genuinely run out.
+// Assigns 1, 2, or (occasionally) 3 stickers per ticket, drawing from a
+// shuffled, non-repeating pool so nearby tickets on the same page don't
+// get handed the same sticker image — only reshuffling (and therefore
+// allowing a repeat) once every unique sticker has been used at least
+// once, since a long enough list will always outrun a finite pool.
 export function assignStickers(ticketIds: string[]): Record<string, PlacedSticker[]> {
   const rng = mulberry32(hashString(ticketIds.join('|')) || 1);
   let pool = shuffled(stickers.length, rng);
@@ -50,7 +54,8 @@ export function assignStickers(ticketIds: string[]): Record<string, PlacedSticke
 
   const result: Record<string, PlacedSticker[]> = {};
   for (const id of ticketIds) {
-    const count = rng() < 0.3 ? 2 : 1;
+    const roll = rng();
+    const count = roll < 0.12 ? 3 : roll < 0.45 ? 2 : 1;
     const placements: PlacedSticker[] = [];
     for (let k = 0; k < count; k++) {
       if (cursor >= pool.length) {
