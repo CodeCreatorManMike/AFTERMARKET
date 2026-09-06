@@ -6,6 +6,39 @@ Cape Town · peer-to-peer event ticket resale, held safe in escrow
 
 ---
 
+## 0. Status & where things live
+
+Full phase/task tracking lives in [GitHub Issues](https://github.com/CodeCreatorManMike/AFTERMARKET/issues)
+and [`docs/roadmap.md`](docs/roadmap.md) — this section is a snapshot, not the source of truth.
+
+**Done so far:**
+- Brand identity locked — palette, type, logo lockups, stamps, ticket-stub asset set (`BRAND/`, `UI/`)
+- Canonical data model drafted and reconciled against real app data shapes — [`docs/data-model.md`](docs/data-model.md)
+- Provider research structure scaffolded, Howler seeded — `ticket-transfer-process/providers/`
+- Expo React Native app prototype built against mock data (`app/`), light + dark mode:
+  - Home (discover/search-adjacent feed, category filter, hero)
+  - Search screen
+  - Tickets screen (Upcoming/Past, all 4 ticket variants, sticker/stamp overlays)
+  - Profile screen (stats, following, badges)
+
+**Not built yet:** event-detail page, onboarding flow, any real backend (Supabase/auth/payments),
+provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
+
+**Repo layout**
+
+| Path | What's in it |
+|---|---|
+| `app/` | Expo/React Native app — the actual buildable prototype |
+| `docs/` | `roadmap.md` (phase plan), `data-model.md` (canonical schema) |
+| `BRAND/` | Brand guide, logo lockups, stamps, moodboard |
+| `UI/` | Mockups, icon set, ticket asset pack, technical blueprint |
+| `MOCK-UPS/` | Static reference mockups per screen |
+| `ticket-transfer-process/` | Structured provider research (current, template-driven) |
+| `TICKET TRANSFER PROCESS/` | Original raw research drop (superseded by the above, kept for source docs not yet migrated — e.g. Howler's docx) |
+| `MEETING TRANSCRIPT/` | Raw meeting notes |
+
+---
+
 ## 1. Brand identity
 
 <p>
@@ -242,4 +275,7 @@ class TicketProviderAdapter(Protocol):
 ## Deliverables produced so far
 - `skarrel.html` — first-pass brand mockup (earlier name, superseded by Aftermarket)
 - `aftermarket-moodboard.html` / `.png` / `.pdf` — full brand identity mood board, matching pixel-for-pixel across formats
+- `app/` — working Expo React Native prototype: Home, Search, Tickets, Profile, light/dark theming
+- `docs/data-model.md` — canonical DB/JSON schema, reconciled against the app's actual mock data
+- `docs/roadmap.md` — phase-by-phase delivery plan, mirrors the GitHub project board
 - This document — full product, data, architecture, and automation brief
