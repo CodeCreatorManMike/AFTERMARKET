@@ -38,12 +38,3 @@ export const stickers: number[] = [
   require('../../assets/stickers/sticker-37.png'),
   require('../../assets/stickers/sticker-38.png'),
 ];
-
-// Simple deterministic string hash -> stable "random" seed.
-export function hashString(input: string): number {
-  let h = 0;
-  for (let i = 0; i < input.length; i++) {
-    h = (h * 31 + input.charCodeAt(i)) | 0;
-  }
-  return Math.abs(h);
-}

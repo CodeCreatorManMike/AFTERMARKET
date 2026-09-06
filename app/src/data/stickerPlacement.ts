@@ -1,4 +1,4 @@
-import { hashString, stickers } from './stickers';
+import { stickers } from './stickers';
 
 export interface PlacedSticker {
   source: number;
@@ -48,7 +48,10 @@ function placement(stickerIndex: number, rng: () => number): PlacedSticker {
 // allowing a repeat) once every unique sticker has been used at least
 // once, since a long enough list will always outrun a finite pool.
 export function assignStickers(ticketIds: string[]): Record<string, PlacedSticker[]> {
-  const rng = mulberry32(hashString(ticketIds.join('|')) || 1);
+  // Re-seeded from true randomness on every call (i.e. every app
+  // load/reload), so sticker choice/size/rotation/position are always
+  // different — not tied to the ticket ids, which never change.
+  const rng = mulberry32(Math.floor(Math.random() * 2 ** 31) || 1);
   let pool = shuffled(stickers.length, rng);
   let cursor = 0;
 

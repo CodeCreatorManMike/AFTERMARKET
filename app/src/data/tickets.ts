@@ -95,7 +95,9 @@ function mulberry32(seed: number) {
  * "events visited" without hand-authoring each one. Deterministic (stable
  * seed) so the list doesn't reshuffle on every render. */
 function generatePastTickets(count: number): TicketItem[] {
-  const rng = mulberry32(0x9e3779b9);
+  // Re-seeded from true randomness on every app load/reload, so the
+  // past-ticket lineup is different each time rather than fixed forever.
+  const rng = mulberry32(Math.floor(Math.random() * 2 ** 31));
   const list: TicketItem[] = [];
 
   for (let i = 0; i < count; i++) {
