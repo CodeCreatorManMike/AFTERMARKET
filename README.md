@@ -51,7 +51,6 @@ to build once assets are gathered (tracked against #36, #38, #39).
 ## 1. Brand identity
 
 <p>
-  <img src="BRAND/SECONDARY_STEMP.png" alt="Aftermarket lime stamp" width="220" />
   <img src="BRAND/Logo_mockup/logo(main).png" alt="Aftermarket logo" width="360" />
 </p>
 
@@ -81,6 +80,8 @@ to build once assets are gathered (tracked against #36, #38, #39).
 **Voice** — direct, plain verbs, no hype-speak, confident like a receipt rather than a sales pitch. Sample lines: *"Your money doesn't move until the ticket does."* / *"Sold out isn't closed. It's just changed hands."*
 
 **Deliverables produced:** a live HTML mockup of the brand mood board, exported as a matching full-resolution PNG and single-page PDF (pixel-identical, rendered via headless Chromium rather than a lossy HTML→PDF converter).
+
+<img src="BRAND/SECONDARY_STEMP.png" alt="Aftermarket lime stamp" width="220" />
 
 ---
 
