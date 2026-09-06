@@ -1,14 +1,14 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { Badge } from '../../data/profile';
 
 const ICON_SIZE = 80;
 
-// Renders whatever badges it's handed — a profile with 1 earned badge
-// and one with all of them both just work, wrapping onto extra rows
-// past 4 rather than assuming a fixed count.
+// Horizontal so any number of earned badges works the same way — a
+// profile with 1 and one with all 10 both just fit, scrolling instead
+// of wrapping once there's more than fits on screen.
 export function BadgeGrid({ badges }: { badges: Badge[] }) {
   const { colors } = useTheme();
 
@@ -23,25 +23,23 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
   }
 
   return (
-    <View style={styles.grid}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.row}>
       {badges.map((b) => (
         <View key={b.id} style={styles.cardWrap}>
           <Image source={b.icon} style={styles.icon} resizeMode="contain" />
-          <Text style={[styles.label, { color: colors.textSecondary }]} numberOfLines={2}>
+          <Text style={[styles.label, { color: colors.textPrimary }]} numberOfLines={2}>
             {b.label}
           </Text>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    rowGap: 10,
-    columnGap: 8,
+  row: {
+    gap: 16,
+    paddingRight: 20,
   },
   cardWrap: {
     width: ICON_SIZE,
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     height: ICON_SIZE,
   },
   label: {
-    fontFamily: fonts.bodyMedium,
+    fontFamily: fonts.bodySemiBold,
     fontSize: 11,
     marginTop: 2,
     textAlign: 'center',

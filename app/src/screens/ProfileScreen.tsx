@@ -42,7 +42,7 @@ export function ProfileScreen() {
           <View style={styles.section}>
             <SectionHeader title="Badges" action="See all" />
             <View style={styles.badgeList}>
-              <BadgeGrid badges={earnedBadges(profile.earnedBadgeIds).slice(0, 4)} />
+              <BadgeGrid badges={earnedBadges(profile.earnedBadgeIds)} />
             </View>
           </View>
         </View>

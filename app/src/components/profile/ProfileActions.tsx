@@ -5,11 +5,14 @@ import { fonts } from '../../theme/typography';
 import { AddFriendIcon, LinkIcon, QRIcon } from '../common/Icons';
 
 export function ProfileActions() {
-  const { colors } = useTheme();
+  const { colors, scheme } = useTheme();
+  // Whichever brand color isn't the page background: lime pops on the
+  // dark/ink night page, coral pops on the green day page.
+  const addFriendsBg = scheme === 'dark' ? colors.lime : colors.coral;
   return (
     <View style={styles.row}>
       <Pressable
-        style={[styles.addFriends, { backgroundColor: colors.lime, borderColor: colors.border }]}
+        style={[styles.addFriends, { backgroundColor: addFriendsBg, borderColor: colors.border }]}
         accessibilityRole="button"
         accessibilityLabel="Add friends"
       >

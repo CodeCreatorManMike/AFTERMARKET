@@ -16,7 +16,7 @@ export function TicketTabs({
 }) {
   const { colors } = useTheme();
   return (
-    <View style={[styles.wrap, { borderBottomColor: colors.border }]}>
+    <View style={[styles.wrap, { borderBottomColor: colors.borderStrong }]}>
       <Tab
         label={`Upcoming (${upcomingCount})`}
         isActive={active === 'upcoming'}
@@ -53,7 +53,7 @@ function Tab({ label, isActive, onPress }: { label: string; isActive: boolean; o
 const styles = StyleSheet.create({
   wrap: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     marginBottom: 22,
   },
   tab: {
@@ -61,18 +61,19 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   tabLabel: {
-    fontFamily: fonts.bodyMedium,
-    fontSize: 15,
+    fontFamily: fonts.bodySemiBold,
+    fontSize: 15.5,
   },
   tabLabelActive: {
     fontFamily: fonts.bodySemiBold,
+    fontSize: 16,
   },
   indicator: {
     position: 'absolute',
-    bottom: -1,
+    bottom: -2,
     left: 0,
     right: 0,
-    height: 3,
+    height: 4,
     borderRadius: 2,
   },
 });
