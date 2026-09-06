@@ -3,10 +3,19 @@ import { ImageBackground, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { TicketItem } from '../../data/tickets';
 import { PlacedSticker } from '../../data/stickerPlacement';
+import { PlacedStamp } from '../../data/stampPlacement';
 import { TicketStub } from './TicketStub';
 import { StickerOverlay } from './StickerOverlay';
 
-export function TicketCard({ ticket, stickerPlacements }: { ticket: TicketItem; stickerPlacements?: PlacedSticker[] }) {
+export function TicketCard({
+  ticket,
+  stickerPlacements,
+  stampPlacements,
+}: {
+  ticket: TicketItem;
+  stickerPlacements?: PlacedSticker[];
+  stampPlacements?: PlacedStamp[];
+}) {
   const { colors } = useTheme();
 
   return (
@@ -15,6 +24,7 @@ export function TicketCard({ ticket, stickerPlacements }: { ticket: TicketItem; 
         <View style={styles.overlay} />
         <TicketStub ticket={ticket} />
         {stickerPlacements && <StickerOverlay placements={stickerPlacements} />}
+        {stampPlacements && <StickerOverlay placements={stampPlacements} />}
       </ImageBackground>
     </View>
   );
