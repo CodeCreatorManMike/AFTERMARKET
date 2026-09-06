@@ -22,12 +22,13 @@ export function Hero() {
 
   const quip = HERO_QUIPS[index];
 
-  // Day mode's page background IS green/lime, so a "trust" highlight
-  // can never render in lime there — it'd disappear. Day mode gets
-  // Coral or Cream only; night mode uses the real Coral/Lime split.
+  // Day mode's page background is itself green — Lime disappears and
+  // Cream is too low-contrast against it. Every highlight on day mode
+  // is Coral, regardless of intent; night mode keeps the real
+  // Coral/Lime split.
   const highlightColor = (intent: HighlightIntent) => {
     if (scheme === 'light') {
-      return intent === 'trust' ? colors.cream : colors.coral;
+      return colors.coral;
     }
     return intent === 'trust' ? colors.lime : colors.coral;
   };
