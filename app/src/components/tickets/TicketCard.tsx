@@ -2,10 +2,11 @@ import React from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../theme/ThemeContext';
 import { TicketItem } from '../../data/tickets';
+import { PlacedSticker } from '../../data/stickerPlacement';
 import { TicketStub } from './TicketStub';
 import { StickerOverlay } from './StickerOverlay';
 
-export function TicketCard({ ticket }: { ticket: TicketItem }) {
+export function TicketCard({ ticket, stickerPlacements }: { ticket: TicketItem; stickerPlacements?: PlacedSticker[] }) {
   const { colors } = useTheme();
 
   return (
@@ -13,7 +14,7 @@ export function TicketCard({ ticket }: { ticket: TicketItem }) {
       <ImageBackground source={ticket.image} style={styles.hero} resizeMode="cover">
         <View style={styles.overlay} />
         <TicketStub ticket={ticket} />
-        {ticket.when === 'past' && <StickerOverlay id={ticket.id} />}
+        {stickerPlacements && <StickerOverlay placements={stickerPlacements} />}
       </ImageBackground>
     </View>
   );

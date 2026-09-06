@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Screen } from '../components/common/Screen';
 import { useTheme } from '../theme/ThemeContext';
@@ -6,6 +6,7 @@ import { type } from '../theme/typography';
 import { TicketTabs } from '../components/tickets/TicketTabs';
 import { TicketCard } from '../components/tickets/TicketCard';
 import { tickets } from '../data/tickets';
+import { assignStickers } from '../data/stickerPlacement';
 
 export function TicketsScreen() {
   const { colors } = useTheme();
@@ -14,6 +15,11 @@ export function TicketsScreen() {
   const upcoming = tickets.filter((t) => t.when === 'upcoming');
   const past = tickets.filter((t) => t.when === 'past');
   const visible = tab === 'upcoming' ? upcoming : past;
+
+  // Computed once for the whole Past list so no two tickets on the page
+  // ever get handed the same sticker image.
+  const pastIds = past.map((t) => t.id).join(',');
+  const stickerAssignments = useMemo(() => assignStickers(pastIds ? pastIds.split(',') : []), [pastIds]);
 
   return (
     <Screen>
@@ -35,7 +41,10 @@ export function TicketsScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.page}>
-            <TicketCard ticket={item} />
+            <TicketCard
+              ticket={item}
+              stickerPlacements={item.when === 'past' ? stickerAssignments[item.id] : undefined}
+            />
           </View>
         )}
         showsVerticalScrollIndicator={false}
