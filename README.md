@@ -1,9 +1,17 @@
 # AFTERMARKET
+
+<img src="BRAND/Logo_mockup/logo(main).png" alt="Aftermarket logo" width="360" />
+
 Cape Town · peer-to-peer event ticket resale, held safe in escrow
 
 ---
 
 ## 1. Brand identity
+
+<p>
+  <img src="BRAND/MAIN_STAMP.png" alt="Aftermarket coral stamp" width="220" />
+  <img src="BRAND/SECONDARY_STEMP.png" alt="Aftermarket lime stamp" width="220" />
+</p>
 
 **Colours**
 
