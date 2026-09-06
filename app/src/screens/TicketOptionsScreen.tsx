@@ -227,8 +227,8 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   eventImage: {
-    width: 128,
-    height: 108,
+    width: 140,
+    alignSelf: 'stretch',
   },
   eventInfo: {
     flex: 1,

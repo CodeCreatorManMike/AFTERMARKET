@@ -1,25 +1,30 @@
-import React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, ImageBackground, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native';
 import { fonts } from '../../theme/typography';
-import { QRIcon } from '../common/Icons';
+import { QRCodeGraphic } from './QRCodeGraphic';
 
 const WIDGET = require('../../../assets/widgets/qr-scan-card.png');
 const LOGO = require('../../../assets/logo/aftermarket-mark.png');
 
 // Aspect ratio of the source widget artwork (1916x821) — the QR "slot"
-// is a pre-baked blank square in that image at these measured
-// percentages, so the code overlay lands in exactly the same spot
-// regardless of how wide the card renders.
+// is a pre-baked blank square in that image, measured (via pixel-mask
+// analysis of the largest connected cream blob) at these percentages,
+// so the code overlay lands in exactly the same spot regardless of how
+// wide the card renders.
 const WIDGET_RATIO = 1916 / 821;
-const SLOT = { left: '56%', top: '15%', width: '26%', height: '59%' } as const;
+const SLOT = { left: '56.5%', top: '16.2%', width: '25.6%', height: '58%' } as const;
 
 export function ProfileQRCard({ username }: { username: string }) {
+  const [widgetWidth, setWidgetWidth] = useState(0);
+  const onLayout = (e: LayoutChangeEvent) => setWidgetWidth(e.nativeEvent.layout.width);
+  const qrSize = widgetWidth * 0.256 * 0.86;
+
   return (
     <View style={styles.wrap}>
-      <View style={styles.widget}>
+      <View style={styles.widget} onLayout={onLayout}>
         <ImageBackground source={WIDGET} style={styles.fill} resizeMode="contain">
           <View style={[styles.slot, SLOT]}>
-            <QRIcon size={200} color="#14102B" />
+            {qrSize > 0 && <QRCodeGraphic seed={username} size={qrSize} />}
             <View style={styles.logoBadge}>
               <Image source={LOGO} style={styles.logoBadgeImg} resizeMode="contain" />
             </View>
