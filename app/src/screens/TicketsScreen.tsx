@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Screen } from '../components/common/Screen';
 import { useTheme } from '../theme/ThemeContext';
 import { type } from '../theme/typography';
 import { TicketTabs } from '../components/tickets/TicketTabs';
 import { TicketCard } from '../components/tickets/TicketCard';
+import { SpinningStamp } from '../components/tickets/SpinningStamp';
 import { tickets } from '../data/tickets';
 import { assignStickers } from '../data/stickerPlacement';
 import { assignStamps } from '../data/stampPlacement';
@@ -34,7 +35,7 @@ export function TicketsScreen() {
     <Screen>
       <View style={styles.header}>
         <Text style={[type.pageTitle, { color: colors.textPrimary }]}>My Tickets</Text>
-        <Image source={cornerStamp} style={styles.cornerStamp} resizeMode="contain" />
+        <SpinningStamp source={cornerStamp} size={68} />
       </View>
 
       <View style={styles.page}>
@@ -73,12 +74,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-  },
-  cornerStamp: {
-    width: 68,
-    height: 68,
-    marginTop: -6,
-    transform: [{ rotate: '-10deg' }],
   },
   page: {
     paddingHorizontal: 20,
