@@ -16,13 +16,23 @@ and [`docs/roadmap.md`](docs/roadmap.md) — this section is a snapshot, not the
 - Canonical data model drafted and reconciled against real app data shapes — [`docs/data-model.md`](docs/data-model.md)
 - Provider research structure scaffolded, Howler seeded — `ticket-transfer-process/providers/`
 - Expo React Native app prototype built against mock data (`app/`), light + dark mode:
-  - Home (discover/search-adjacent feed, category filter, hero)
+  - Home — discover feed, category filter, and a hero that rotates through a dozen on-brand
+    quips (one highlighted phrase each, Coral/Lime resolved per-theme so nothing goes
+    green-on-green in day mode), auto-cycling every 25s
   - Search screen
-  - Tickets screen (Upcoming/Past, all 4 ticket variants, sticker/stamp overlays)
-  - Profile screen (stats, following, badges)
+  - Tickets screen — Upcoming/Past, all 4 ticket variants, a scrapbook-style random sticker
+    system (1-3 per past ticket, never repeating on adjacent cards) plus an independent,
+    occasional stamp overlay, and a continuously-spinning corner stamp (Coral on day, Lime on
+    night)
+  - Profile screen — stats, following, real embroidered-patch badge artwork (scrollable, works
+    for any number of earned badges)
 
 **Not built yet:** event-detail page, onboarding flow, any real backend (Supabase/auth/payments),
 provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
+
+**Next up:** `MOCK-UPS/ui sprint 2/` has mockups for the next batch of screens — event detail /
+buy-resale-ticket flow, a single ticket's detail view, edit profile, and a past-event view — ready
+to build once assets are gathered (tracked against #36, #38, #39).
 
 **Repo layout**
 
@@ -31,8 +41,8 @@ provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub
 | `app/` | Expo/React Native app — the actual buildable prototype |
 | `docs/` | `roadmap.md` (phase plan), `data-model.md` (canonical schema) |
 | `BRAND/` | Brand guide, logo lockups, stamps, moodboard |
-| `UI/` | Mockups, icon set, ticket asset pack, technical blueprint |
-| `MOCK-UPS/` | Static reference mockups per screen |
+| `UI/` | Icon set (`UI/ASSETS/MAIN ICONS/`), ticket/sticker/stamp asset packs, a QR widget reference (`UI/ASSETS/WIDGETS/`), and the React Native technical blueprint |
+| `MOCK-UPS/` | Static reference mockups: `ui sprint 1/` (Home/Search/Tickets/Profile, built), `ui sprint 2/` (event detail, buy-resale-ticket, edit profile, ticket view, previous event — next up) |
 | `ticket-transfer-process/` | Structured provider research (current, template-driven) |
 | `TICKET TRANSFER PROCESS/` | Original raw research drop (superseded by the above, kept for source docs not yet migrated — e.g. Howler's docx) |
 | `MEETING TRANSCRIPT/` | Raw meeting notes |
