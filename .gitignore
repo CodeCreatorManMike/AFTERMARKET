@@ -1,2 +1,7 @@
 .DS_Store
 **/.DS_Store
+
+# Claude Code local config/docs — kept local only
+.claude/
+CLAUDE.md
+AGENTS.md
