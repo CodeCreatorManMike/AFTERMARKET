@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { EventItem } from '../../data/events';
@@ -8,11 +9,13 @@ import { HeartIcon } from '../common/Icons';
 export function CompactEventRow({ event }: { event: EventItem }) {
   const [favorited, setFavorited] = useState(!!event.favorited);
   const { colors } = useTheme();
+  const navigation = useNavigation<any>();
   return (
-    <View
+    <Pressable
       style={styles.row}
+      onPress={() => navigation.navigate('TicketOptions', { event })}
       accessible
-      accessibilityLabel={`${event.title}, ${event.venue}, ${event.city}, ${event.day} ${event.date} ${event.month}`}
+      accessibilityLabel={`Open ${event.title}, ${event.venue}, ${event.city}, ${event.day} ${event.date} ${event.month}`}
     >
       <Image source={event.image} style={styles.thumb} resizeMode="cover" importantForAccessibility="no" />
       <View style={styles.info} importantForAccessibility="no">
@@ -36,7 +39,7 @@ export function CompactEventRow({ event }: { event: EventItem }) {
       >
         <HeartIcon size={19} color={favorited ? colors.coral : colors.textMuted} filled={favorited} strokeWidth={2} />
       </Pressable>
-    </View>
+    </Pressable>
   );
 }
 

@@ -10,9 +10,8 @@ import { RecentSearchRow } from '../components/discovery/RecentSearchRow';
 import { CompactEventRow } from '../components/discovery/CompactEventRow';
 import { events } from '../data/events';
 
-const INITIAL_RECENT = ['Keinemusik', 'Cabo Beach Club', 'Ultra South Africa', 'The Jazz Room'];
-// Fisher, Keinemusik, RÜFÜS DU SOL, Paradise Club, Black Coffee, Origin Festival, Rocking the Daisies, Ultra SA
-const POPULAR_IDS = ['e3', 'e2', 'e4', 'e6', 'e1', 'e5', 'e11', 'e12'];
+const INITIAL_RECENT = [events[1].title, events[4].venue, events[7].title, events[10].venue];
+const POPULAR_IDS = ['demo-event-0003', 'demo-event-0002', 'demo-event-0004', 'demo-event-0006', 'demo-event-0001', 'demo-event-0005', 'demo-event-0011', 'demo-event-0012'];
 
 export function SearchScreen() {
   const { colors } = useTheme();

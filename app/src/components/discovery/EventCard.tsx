@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { fonts } from '../../theme/typography';
 import { EventItem } from '../../data/events';
@@ -8,8 +9,14 @@ import { HeartIcon } from '../common/Icons';
 export function EventCard({ event, featured = false }: { event: EventItem; featured?: boolean }) {
   const [favorited, setFavorited] = useState(!!event.favorited);
   const { colors } = useTheme();
+  const navigation = useNavigation<any>();
+
   return (
-    <View style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}>
+    <Pressable
+      style={[styles.card, { borderColor: colors.border, backgroundColor: colors.surfaceRaised }]}
+      onPress={() => navigation.navigate('TicketOptions', { event })}
+      accessibilityLabel={`Open ${event.title}`}
+    >
       <View style={[styles.imageWrap, { height: featured ? 250 : 180, backgroundColor: colors.ink }]}>
         <Image
           source={event.image}
@@ -52,7 +59,7 @@ export function EventCard({ event, featured = false }: { event: EventItem; featu
           <Text style={[styles.tag, { color: colors.textMuted }]}>{event.categoryLabel}</Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

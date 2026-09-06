@@ -6,7 +6,7 @@ import { useFonts, Archivo_900Black, Archivo_800ExtraBold, Archivo_700Bold } fro
 import { IBMPlexMono_400Regular, IBMPlexMono_500Medium } from '@expo-google-fonts/ibm-plex-mono';
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { View } from 'react-native';
-import { MainTabs } from './src/navigation/MainTabs';
+import { RootStack } from './src/navigation/RootStack';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
 import { OverlayProvider, useOverlay } from './src/navigation/OverlayContext';
@@ -19,7 +19,7 @@ function Root() {
     <>
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       <NavigationContainer>
-        <MainTabs />
+        <RootStack />
       </NavigationContainer>
       {settingsOpen ? (
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>

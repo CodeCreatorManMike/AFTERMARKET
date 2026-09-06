@@ -7,6 +7,7 @@ import { ProfileIdentity } from '../components/profile/ProfileIdentity';
 import { ProfileSocialStats } from '../components/profile/ProfileSocialStats';
 import { ProfileActivityStats } from '../components/profile/ProfileActivityStats';
 import { ProfileActions } from '../components/profile/ProfileActions';
+import { ProfileQRCard } from '../components/profile/ProfileQRCard';
 import { FollowingScroller } from '../components/profile/FollowingScroller';
 import { BadgeGrid } from '../components/profile/BadgeGrid';
 import { profile, followedEntities, earnedBadges } from '../data/profile';
@@ -30,7 +31,11 @@ export function ProfileScreen() {
 
           <ProfileActivityStats eventsAttended={profile.eventsAttended} ticketsSold={profile.ticketsSold} />
 
-          <ProfileActions />
+          <View style={styles.qrCard}>
+            <ProfileQRCard username={profile.username} />
+          </View>
+
+          <ProfileActions username={profile.username} />
 
           <View style={styles.section}>
             <SectionHeader title="Following" action="See all" />
@@ -58,6 +63,9 @@ const styles = StyleSheet.create({
   },
   page: {
     paddingHorizontal: 20,
+  },
+  qrCard: {
+    marginTop: 20,
   },
   section: {
     marginTop: 28,

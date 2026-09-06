@@ -8,7 +8,7 @@ import { FilterRow } from '../components/discovery/FilterRow';
 import { CategoryScroller } from '../components/discovery/CategoryScroller';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { EventCard } from '../components/discovery/EventCard';
-import { events } from '../data/events';
+import { featuredEvents } from '../data/events';
 
 export function HomeScreen() {
   return (
@@ -28,9 +28,9 @@ export function HomeScreen() {
             <SectionHeader title="Featured events" action="See all" />
           </View>
 
-          <EventCard event={events[0]} featured />
+          <EventCard event={featuredEvents[0]} featured />
 
-          {events.slice(1).map((event) => (
+          {featuredEvents.slice(1).map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </View>

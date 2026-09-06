@@ -267,6 +267,61 @@ export function QRIcon({ size = 24, color = '#14102B' }: IconProps) {
   );
 }
 
+export function CopyIcon({ size = 20, color = '#14102B', strokeWidth = 1.8 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path d="M9 9V6a2 2 0 012-2h7a2 2 0 012 2v7a2 2 0 01-2 2h-3" stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
+      <Path d="M6 9h7a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7a2 2 0 012-2z" stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function StarIcon({ size = 16, color = '#14102B', filled = true }: IconProps & { filled?: boolean }) {
+  return (
+    <Svg {...base(size)} fill={filled ? color : 'none'}>
+      <Path
+        d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.4l-5.8 3.1 1.1-6.45-4.7-4.6 6.5-.95z"
+        stroke={color}
+        strokeWidth={filled ? 0 : 1.6}
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function ShieldCheckIcon({ size = 24, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path
+        d="M12 2.8l7.5 2.8v6c0 5-3.2 8.7-7.5 9.6-4.3-.9-7.5-4.6-7.5-9.6v-6z"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+      <Path d="M8.5 12.2l2.4 2.4 4.6-4.8" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function InfoIcon({ size = 16, color = '#14102B', strokeWidth = 1.8 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={12} cy={12} r={9} stroke={color} strokeWidth={strokeWidth} />
+      <Line x1={12} y1={11} x2={12} y2={16.5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Circle cx={12} cy={7.8} r={1.1} fill={color} />
+    </Svg>
+  );
+}
+
+export function CheckBadgeIcon({ size = 16, color = '#C6FF3D', checkColor = '#14102B' }: IconProps & { checkColor?: string }) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={12} cy={12} r={10} fill={color} />
+      <Path d="M7.5 12.3l2.8 2.8 6.2-6.4" stroke={checkColor} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
 export function GearIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
   return (
     <Svg {...base(size)} fill="none">

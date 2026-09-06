@@ -13,7 +13,7 @@ export const preloadAssets: number[] = [
   LOGO,
   MAIN_STAMP,
   SECONDARY_STAMP,
-  ...events.map((e) => e.image),
+  ...Array.from(new Set(events.map((e) => e.image))),
   ...tickets.map((t) => t.image),
   ...stickers,
   ...RANDOM_STAMPS,
