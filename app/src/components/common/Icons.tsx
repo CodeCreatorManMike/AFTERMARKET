@@ -153,6 +153,89 @@ export function MoonIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: Icon
   );
 }
 
+export function BackArrowIcon({ size = 20, color = '#14102B', strokeWidth = 2.2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path d="M19 12H5M5 12l6-6M5 12l6 6" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function PencilIcon({ size = 18, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path
+        d="M4 20l.9-3.6L16.2 5.1a1.5 1.5 0 012.1 0l1.6 1.6a1.5 1.5 0 010 2.1L8.6 20 4 20z"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+      <Line x1={14.5} y1={6.8} x2={18.2} y2={10.5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function LinkIcon({ size = 18, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path
+        d="M10 14a4 4 0 005.7.2l2.3-2.3a4 4 0 00-5.7-5.7l-1.3 1.3"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M14 10a4 4 0 00-5.7-.2L6 12.1a4 4 0 005.7 5.7l1.3-1.3"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function AddFriendIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Circle cx={9.5} cy={8.2} r={3.4} stroke={color} strokeWidth={strokeWidth} />
+      <Path d="M3 20c1.1-3.6 3.6-5.4 6.5-5.4S14.9 16.4 16 20" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+      <Line x1={18.5} y1={5.5} x2={18.5} y2={11.5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <Line x1={15.5} y1={8.5} x2={21.5} y2={8.5} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function PlaneIcon({ size = 24, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path
+        d="M21 12l-7-2.2V4.8a1.6 1.6 0 00-3.2 0v5L3 12v2l7.8-1.9v4.4L8.5 18v1.6l3.5-1 3.5 1V18l-2.3-1.5v-4.4L21 14z"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function BoltIcon({ size = 24, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path d="M13 3L4.5 14h5.5l-1 7L19 10h-5.5l-0.5-7z" stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function DiagonalArrowIcon({ size = 24, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path d="M7 17L17 7M9 7h8v8" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
 export function GearIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: IconProps) {
   return (
     <Svg {...base(size)} fill="none">
