@@ -26,8 +26,12 @@ and [`docs/roadmap.md`](docs/roadmap.md) — this section is a snapshot, not the
   - Profile screen — stats, following, real embroidered-patch badge artwork (scrollable, works
     for any number of earned badges)
 
-**Not built yet:** event-detail page, onboarding flow, any real backend (Supabase/auth/payments),
-provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
+**New interactive wireframe:** first-run account-choice onboarding, editable local profile, reward previews,
+and FIXR/Fatsoma selling previews with event search/creation and screenshot selection. See
+[`docs/onboarding-and-selling.md`](docs/onboarding-and-selling.md) for the flow, test coverage and production handoff.
+
+**Not built yet:** real authentication/backend, public seller listings, moderation, secure ticket storage,
+payments/escrow and provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
 
 **Next up:** `MOCK-UPS/ui sprint 2/` has mockups for the next batch of screens — event detail /
 buy-resale-ticket flow, a single ticket's detail view, edit profile, and a past-event view — ready
