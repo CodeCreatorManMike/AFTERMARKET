@@ -9,7 +9,7 @@ test('prices use cents and reject invalid, zero, negative and over-limit values'
   assert.equal(priceInCents(' 250.5 '), 25050);
   assert.equal(priceInCents('100000'), 10000000);
 });
-test('event times are SAST regardless of device timezone, rejecting calendar rollovers', () => {
+test('event times default to SAST regardless of device timezone, rejecting calendar rollovers', () => {
   assert.equal(eventStart('2028-02-29', '20:30'), '2028-02-29T18:30:00.000Z');
   assert.equal(eventStart('2026-01-01', '00:00'), '2025-12-31T22:00:00.000Z');
   for (const [date, time] of [['2026-02-29', '20:00'], ['2026-04-31', '12:00'], ['2026-12-01', '24:00'], ['2026-12-01', '12:60'], ['26-01-01', '12:00']]) assert.equal(eventStart(date, time), null);

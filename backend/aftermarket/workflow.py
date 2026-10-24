@@ -183,6 +183,19 @@ class Workflow:
                             (custody_evidence, _now(), listing_id))
             self._event(listing_id, None, "fixr_received", actor, row["seller_email"], custody_evidence)
 
+    def record_transfer_lead(self, listing_id: str, message_id: str, actor: str) -> bool:
+        """Log an authenticated FIXR email for operator review; once per message."""
+        evidence = f"email lead {_required(message_id, 'Message ID')}"
+        with self._tx():
+            row = self._row("listings", listing_id)
+            if row["status"] != "awaiting_transfer":
+                raise WorkflowError("Listing is not awaiting a FIXR transfer")
+            if self.db.execute("SELECT 1 FROM audit_events WHERE listing_id=? AND event_type='fixr_email_lead' AND evidence=?",
+                               (listing_id, evidence)).fetchone():
+                return False
+            self._event(listing_id, None, "fixr_email_lead", _required(actor, "Actor"), evidence=evidence)
+        return True
+
     def reserve(self, listing_id: str, buyer_email: str, hold_expires_at: str, actor: str) -> str:
         buyer_email, actor = _email(buyer_email), _required(actor, "Actor")
         try:

@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootStack';
+import { useStartFlow } from '../features/marketplace/flows';
 import { useMarketplace } from '../features/marketplace/MarketplaceContext';
 import { NightPass } from '../features/marketplace/BrandVisuals';
 import { Action, Copy, Rewards } from '../features/marketplace/FlowUI';
@@ -13,6 +14,7 @@ import { useOverlay } from '../navigation/OverlayContext';
 
 export function ProfileScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { startSell } = useStartFlow();
   const { state } = useMarketplace();
   const member = state.member;
   const { openSettings } = useOverlay();
@@ -26,7 +28,7 @@ export function ProfileScreen() {
           <Copy>Local profile preview · buy + sell</Copy>
           <ProfileActivityStats eventsAttended={0} ticketsSold={0} />
           <Action label="Edit profile" secondary onPress={() => navigation.navigate('EditProfile')} />
-          <Action label="Sell a ticket" onPress={() => navigation.navigate('Sell')} />
+          <Action label="Sell a ticket" onPress={() => startSell()} />
           <Action label={`My listings (${state.listings.length})`} secondary onPress={() => navigation.navigate('Listings')} />
           <Rewards />
           <Action label="Settings & appearance" secondary onPress={openSettings} />

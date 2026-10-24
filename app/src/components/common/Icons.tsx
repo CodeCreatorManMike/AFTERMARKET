@@ -336,3 +336,12 @@ export function GearIcon({ size = 20, color = '#14102B', strokeWidth = 2 }: Icon
     </Svg>
   );
 }
+
+export function MailIcon({ size = 24, color = '#14102B', strokeWidth = 2 }: IconProps) {
+  return (
+    <Svg {...base(size)} fill="none">
+      <Path d="M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
+      <Path d="M3.5 7l8.5 6.5L20.5 7" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}

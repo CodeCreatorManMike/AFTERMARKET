@@ -5,7 +5,7 @@
 export type OxfordFixrEvent = {
   id: string; title: string; venue: string; date: string;
   startAt?: string; endAt?: string; address?: string;
-  url: string; imageUrl: string; excerpt: string;
+  url: string; imageUrl: string; excerpt: string; description?: string | null;
   availabilityAtCheck: 'on_sale' | 'sold_out';
 };
 
@@ -104,9 +104,9 @@ export function oxfordDate(now: Date): string {
   return `${field('year')}-${field('month')}-${field('day')}`;
 }
 
-export function visibleOxfordEvents(now = new Date()): OxfordFixrEvent[] {
+export function visibleOxfordEvents(now = new Date(), catalogue = oxfordFixrEvents): OxfordFixrEvent[] {
   const today = oxfordDate(now);
-  return oxfordFixrEvents.filter(event => event.endAt
+  return catalogue.filter(event => event.endAt
     ? new Date(event.endAt).getTime() > now.getTime()
     : event.date >= today);
 }

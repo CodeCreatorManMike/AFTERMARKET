@@ -1,4 +1,3 @@
-import { events } from './events';
 import { tickets } from './tickets';
 import { stickers } from './stickers';
 import { RANDOM_STAMPS, MAIN_STAMP, SECONDARY_STAMP } from './stamps';
@@ -13,7 +12,6 @@ export const preloadAssets: number[] = [
   LOGO,
   MAIN_STAMP,
   SECONDARY_STAMP,
-  ...Array.from(new Set(events.map((e) => e.image))),
   ...tickets.map((t) => t.image),
   ...stickers,
   ...RANDOM_STAMPS,

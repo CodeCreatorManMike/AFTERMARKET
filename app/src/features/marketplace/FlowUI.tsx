@@ -68,9 +68,9 @@ export function Choice({ label, selected, onPress, swatch }: { label: string; se
   </Pressable>;
 }
 
-export function Flow({ step, title, subtitle, children, back, footer, error, progress, artwork }: {
+export function Flow({ step, title, subtitle, children, back, footer, error, progress, progressMax = 3, artwork }: {
   step: string; title: string; subtitle: string; children: React.ReactNode; back?: () => void;
-  footer?: React.ReactNode; error?: string; progress?: number; artwork?: React.ReactNode;
+  footer?: React.ReactNode; error?: string; progress?: number; progressMax?: number; artwork?: React.ReactNode;
 }) {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -118,8 +118,8 @@ export function Flow({ step, title, subtitle, children, back, footer, error, pro
           <Animated.View style={{ opacity: fade, gap: 20 }}>
             <View style={{ gap: 12 }}>
               <Text style={[type.mono, { color: colors.textSecondary }]}>{step}</Text>
-              {progress !== undefined && <View accessibilityRole="progressbar" accessibilityLabel="Setup progress" accessibilityValue={{ min: 1, max: 3, now: progress }} style={{ flexDirection: 'row', gap: 6 }}>
-                {[1, 2, 3].map(n => <View key={n} style={{ height: 4, flex: 1, borderRadius: 2, backgroundColor: n <= progress ? colors.coral : colors.border }} />)}
+              {progress !== undefined && <View accessibilityRole="progressbar" accessibilityLabel="Setup progress" accessibilityValue={{ min: 1, max: progressMax, now: progress }} style={{ flexDirection: 'row', gap: 6 }}>
+                {Array.from({ length: progressMax }, (_, index) => index + 1).map(n => <View key={n} style={{ height: 4, flex: 1, borderRadius: 2, backgroundColor: n <= progress ? colors.coral : colors.border }} />)}
               </View>}
             </View>
             {artwork}

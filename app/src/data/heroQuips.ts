@@ -24,7 +24,7 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: "DOESN'T MEAN" },
       { text: "YOU'RE OUT.", highlight: 'action' },
     ],
-    body: 'Explore Oxford FIXR events and learn how an independently checked resale could work.',
+    body: 'Sold out on FIXR? Find a verified spare from someone who can’t make it.',
   },
   {
     lines: [
@@ -72,7 +72,7 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'THE' },
       { text: 'AFTERMARKET.', highlight: 'action' },
     ],
-    body: 'A fairer second chance for great nights, starting with the Oxford FIXR pilot.',
+    body: 'A fairer second chance for great nights, every ticket checked by transfer.',
   },
   {
     lines: [

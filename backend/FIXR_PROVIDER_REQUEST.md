@@ -15,6 +15,8 @@ Could you tell us:
 3. Whether a ticket can be transferred more than once, and what rules or event-specific restrictions apply.
 4. Whether FIXR supports a service inbox or account acting as an intermediary, or requires direct seller-to-buyer transfer.
 5. How refunds, cancelled events, disputes and buyer identity checks should be handled in this flow.
+6. Whether FIXR can license a daily Oxford event feed containing event IDs, dates, times, venue addresses, status, complete organiser descriptions and poster URLs, with rights for Aftermarket to display those images and descriptions.
+7. Whether the feed reports cancellations, changes, sold-out status and recurring series, and what freshness limits and attribution FIXR requires.
 
 We will keep all ticket movement manual and will not automate FIXR account access while these points are unresolved.
 

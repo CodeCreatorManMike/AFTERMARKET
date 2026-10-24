@@ -37,12 +37,16 @@ payments/escrow and provider transfer automation. See `docs/roadmap.md` Phase 3+
 audit log, expiry handler and SMTP notification outbox. It does not move money or tickets. See
 `backend/README.md` for the walkthrough and production gates.
 
-**Oxford Halloween pilot:** the app now has a branded buyer/seller guide, a searchable snapshot of 84 public
-FIXR Oxford events from 24 October to 1 November 2026, and a private local seller preview with exact event matching and screenshot selection.
-Event cards use FIXR-hosted organiser artwork and disappear when their published finish time passes.
-The screenshot is discarded on save. `backend/` has candidate FIXR mail checks and a Stripe signed-webhook
-integration seam; neither is connected to a live app checkout or mailbox. See
-[`docs/oxford-fixr-pilot.md`](docs/oxford-fixr-pilot.md) for the event sources and limits.
+**FIXR marketplace pilot (Oxford + Cape Town):** onboarding detects the member's country (UK → Oxford,
+South Africa → Cape Town) or lets them choose; Settings and the home filter change it. Home and Search show
+the city's FIXR events most in-demand first (sold out, scarcity, FIXR order) with working search, date and
+sold-out filters, and hide events after they finish. Buying and selling each show a short visual guide the
+first time. Sellers pick a FIXR event (or add a missing one), upload a screenshot that must contain a
+readable QR code (checked on the phone, never uploaded), get a default price from FIXR's last available
+price when the feed supplies it, then transfer the ticket on FIXR to the Aftermarket inbox. `backend/` has
+the per-city catalogue API, a Gmail IMAP transfer-email checker, workflow audit trail and a Stripe
+signed-webhook seam. See [`docs/fixr-inbox-setup.md`](docs/fixr-inbox-setup.md) and
+[`docs/oxford-fixr-pilot.md`](docs/oxford-fixr-pilot.md).
 
 **Next up:** `MOCK-UPS/ui sprint 2/` has mockups for the next batch of screens — event detail /
 buy-resale-ticket flow, a single ticket's detail view, edit profile, and a past-event view — ready

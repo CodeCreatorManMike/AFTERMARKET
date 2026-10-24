@@ -7,6 +7,7 @@ import { IBMPlexMono_400Regular, IBMPlexMono_500Medium } from '@expo-google-font
 import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { View } from 'react-native';
 import { MarketplaceProvider } from './src/features/marketplace/MarketplaceContext';
+import { CatalogueProvider } from './src/features/marketplace/CatalogueContext';
 import { RootStack } from './src/navigation/RootStack';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
@@ -57,7 +58,7 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider>
         <OverlayProvider>
-          <MarketplaceProvider><Root /></MarketplaceProvider>
+          <MarketplaceProvider><CatalogueProvider><Root /></CatalogueProvider></MarketplaceProvider>
         </OverlayProvider>
       </ThemeProvider>
     </SafeAreaProvider>
