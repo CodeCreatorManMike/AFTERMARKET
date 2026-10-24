@@ -1,6 +1,6 @@
 export type AuthMethod = 'Apple' | 'Google' | 'Email' | 'Phone';
 export type Member = { name: string; bio: string; accent: 'coral' | 'lime'; method: AuthMethod; joined: string };
-export type ListingEvent = { id: string; title: string; venue: string; startAt: string; description?: string; image?: string; custom?: boolean; sourceUrl?: string; dateOnly?: boolean };
+export type ListingEvent = { id: string; title: string; venue: string; startAt: string; description?: string; image?: string; custom?: boolean; sourceUrl?: string; dateOnly?: boolean; timezone?: 'Europe/London' };
 export type Listing = { id: string; event: ListingEvent; provider: 'FIXR' | 'Fatsoma'; ticketType: string; price: number; currency?: 'ZAR' | 'GBP'; status: 'draft_review'; createdAt: string };
 export function validContact(method: AuthMethod, value: string) {
   return method === 'Email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) : method === 'Phone' ? /^\+[1-9]\d{7,14}$/.test(value.replace(/[\s()-]/g, '')) : true;
@@ -29,7 +29,7 @@ export function decodeState(raw: string): MarketplaceState {
   const member = value.member;
   if (member !== null && (!member || !text(member.name) || member.name.trim().length < 2 || !text(member.bio) || !['coral', 'lime'].includes(member.accent) || !['Apple', 'Google', 'Email', 'Phone'].includes(member.method) || !date(member.joined))) throw new Error('Invalid saved member');
   for (const item of value.listings) {
-    if (!item || !text(item.id) || !item.event || !text(item.event.id) || !text(item.event.title) || !text(item.event.venue) || !date(item.event.startAt) || (item.event.description !== undefined && !text(item.event.description)) || (item.event.sourceUrl !== undefined && (!text(item.event.sourceUrl) || !/^https:\/\/fixr\.co\/event\//.test(item.event.sourceUrl))) || (item.event.dateOnly !== undefined && typeof item.event.dateOnly !== 'boolean') || !['FIXR', 'Fatsoma'].includes(item.provider) || !text(item.ticketType) || (item.currency !== undefined && !['ZAR', 'GBP'].includes(item.currency)) || typeof item.price !== 'number' || !Number.isFinite(item.price) || item.price <= 0 || item.price > 100000 || item.status !== 'draft_review' || !date(item.createdAt)) throw new Error('Invalid saved listing');
+    if (!item || !text(item.id) || !item.event || !text(item.event.id) || !text(item.event.title) || !text(item.event.venue) || !date(item.event.startAt) || (item.event.description !== undefined && !text(item.event.description)) || (item.event.sourceUrl !== undefined && (!text(item.event.sourceUrl) || !/^https:\/\/fixr\.co\/event\//.test(item.event.sourceUrl))) || (item.event.dateOnly !== undefined && typeof item.event.dateOnly !== 'boolean') || (item.event.timezone !== undefined && item.event.timezone !== 'Europe/London') || !['FIXR', 'Fatsoma'].includes(item.provider) || !text(item.ticketType) || (item.currency !== undefined && !['ZAR', 'GBP'].includes(item.currency)) || typeof item.price !== 'number' || !Number.isFinite(item.price) || item.price <= 0 || item.price > 100000 || item.status !== 'draft_review' || !date(item.createdAt)) throw new Error('Invalid saved listing');
   }
   return { member, listings: value.listings };
 }

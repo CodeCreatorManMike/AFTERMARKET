@@ -24,7 +24,7 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: "DOESN'T MEAN" },
       { text: "YOU'RE OUT.", highlight: 'action' },
     ],
-    body: "Buy and resell event tickets securely. Your money doesn't move until the ticket does.",
+    body: 'Explore Oxford FIXR events and learn how an independently checked resale could work.',
   },
   {
     lines: [
@@ -32,7 +32,7 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'EVEN IF' },
       { text: "IT'S SOLD OUT." },
     ],
-    body: 'Someone can’t go. You still can — held safe until the ticket actually moves.',
+    body: 'Find the exact event first. A spare ticket can give someone else a way in.',
   },
   {
     lines: [
@@ -40,15 +40,15 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'PASS IT ON,', highlight: 'action' },
       { text: 'SAFELY.' },
     ],
-    body: 'Resell directly to real people. Your money stays held until the transfer is confirmed.',
+    body: 'Start a private resale preview. Ticket review and checkout are being built.',
   },
   {
     lines: [
       { text: 'BUY FROM PEOPLE.' },
       { text: 'NOT SCREENSHOTS.' },
-      { text: 'VERIFIED, ALWAYS.', highlight: 'trust' },
+      { text: 'CHECK THE DETAILS.', highlight: 'trust' },
     ],
-    body: 'Every resale ticket is checked against the provider before your money ever moves.',
+    body: 'A screenshot alone cannot verify a ticket. Match the event and confirm transfer rules.',
   },
   {
     lines: [
@@ -56,15 +56,15 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'IS ALREADY SOMEONE' },
       { text: "ELSE'S SPARE TICKET.", highlight: 'action' },
     ],
-    body: 'Discover resale tickets from real sellers, held safe until the swap is done.',
+    body: 'Browse the event catalogue and learn the steps before resale opens.',
   },
   {
     lines: [
-      { text: 'THE TICKET MOVES.' },
-      { text: 'THEN THE MONEY DOES.', highlight: 'trust' },
-      { text: 'NOT BEFORE.' },
+      { text: 'ONE EVENT.' },
+      { text: 'ONE SPARE TICKET.', highlight: 'trust' },
+      { text: 'A CLEAR TRAIL.' },
     ],
-    body: "That's the whole trick. Buy and resell event tickets, without the risk of getting burned.",
+    body: 'Seller review, FIXR handover, payment confirmation and buyer claim each need a check.',
   },
   {
     lines: [
@@ -72,7 +72,7 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'THE' },
       { text: 'AFTERMARKET.', highlight: 'action' },
     ],
-    body: 'A fairer second chance for great nights — buy and resell with confidence.',
+    body: 'A fairer second chance for great nights, starting with the Oxford FIXR pilot.',
   },
   {
     lines: [
@@ -80,15 +80,15 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'REAL PEOPLE.' },
       { text: 'SAFER TOGETHER.', highlight: 'trust' },
     ],
-    body: 'Peer-to-peer resale, held safe in escrow from the first tap to the last.',
+    body: 'See how the pilot plans to match people, payments and ticket transfers.',
   },
   {
     lines: [
-      { text: 'WE HOLD THE MONEY' },
-      { text: 'UNTIL THE TICKET' },
-      { text: 'IS YOURS.', highlight: 'trust' },
+      { text: 'PAYMENTS COME' },
+      { text: 'AFTER REVIEW.', highlight: 'trust' },
+      { text: 'NOT YET LIVE.' },
     ],
-    body: "No ticket, no payout. That's the whole deal.",
+    body: 'Stripe checkout and payout controls are still being connected.',
   },
   {
     lines: [
@@ -103,14 +103,14 @@ export const HERO_QUIPS: HeroQuip[] = [
       { text: 'GOOD PEOPLE.' },
       { text: 'GREAT NIGHTS.', highlight: 'action' },
     ],
-    body: 'Buy, sell and discover live events with people you can actually trust.',
+    body: 'Discover live events and preview how passing a spare on will work.',
   },
   {
     lines: [
       { text: 'TICKETS CHANGE HANDS.' },
       { text: 'CULTURE MOVES FORWARD.', highlight: 'trust' },
     ],
-    body: 'Every resale keeps the night alive for someone else — safely, verifiably.',
+    body: 'Every resale starts by matching the exact event and checking the transfer route.',
   },
 ];
 

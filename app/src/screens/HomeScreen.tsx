@@ -25,7 +25,10 @@ export function HomeScreen() {
         <View style={styles.page}>
           <HomeTopBar />
           <Hero />
-          <View style={{ marginVertical: 18 }}><Action label="Oxford Halloween · FIXR guide →" onPress={() => navigation.navigate('OxfordGuide')} /></View>
+          <View style={{ marginVertical: 18, gap: 8 }}>
+            <Action label="Explore Oxford FIXR events →" onPress={() => navigation.navigate('OxfordEvents')} />
+            <Action label="Oxford Halloween · how it works" secondary onPress={() => navigation.navigate('OxfordGuide')} />
+          </View>
           <SearchField />
           <FilterRow />
           <CategoryScroller />

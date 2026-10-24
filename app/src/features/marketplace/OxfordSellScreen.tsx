@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Image, Linking, Pressable, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/RootStack';
-import { OxfordFixrEvent, visibleOxfordEvents } from '../../data/oxfordFixrEvents';
+import { OxfordFixrEvent, oxfordFixrEvents, visibleOxfordEvents } from '../../data/oxfordFixrEvents';
 import { useTheme } from '../../theme/ThemeContext';
 import { type } from '../../theme/typography';
 import { useMarketplace } from './MarketplaceContext';
@@ -13,12 +13,12 @@ import { priceInCents } from './model';
 
 const INBOX = process.env.EXPO_PUBLIC_FIXR_INBOX?.trim();
 
-export function OxfordSellScreen({ navigation }: NativeStackScreenProps<RootStackParamList, 'OxfordSell'>) {
+export function OxfordSellScreen({ navigation, route }: NativeStackScreenProps<RootStackParamList, 'OxfordSell'>) {
   const { colors } = useTheme();
   const { state, save } = useMarketplace();
   const [step, setStep] = useState(0);
-  const [event, setEvent] = useState<OxfordFixrEvent | null>(null);
-  const [query, setQuery] = useState('');
+  const [event, setEvent] = useState<OxfordFixrEvent | null>(() => oxfordFixrEvents.find(item => item.id === route.params?.eventId) ?? null);
+  const [query, setQuery] = useState(() => oxfordFixrEvents.find(item => item.id === route.params?.eventId)?.title ?? '');
   const [proof, setProof] = useState<string | null>(null);
   const [ticketType, setTicketType] = useState('General admission');
   const [price, setPrice] = useState('');
@@ -26,7 +26,7 @@ export function OxfordSellScreen({ navigation }: NativeStackScreenProps<RootStac
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const submitting = useRef(false);
-  const events = visibleOxfordEvents().filter(item => `${item.title} ${item.venue}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const events = visibleOxfordEvents().filter(item => `${item.title} ${item.venue}`.toLowerCase().includes(query.trim().toLowerCase())).slice(0, query.trim() ? undefined : 12);
 
   async function chooseProof() {
     setBusy(true); setError('');
@@ -36,20 +36,20 @@ export function OxfordSellScreen({ navigation }: NativeStackScreenProps<RootStac
   }
   function next() {
     setError('');
-    if (step === 0 && !event) { setError('Choose the FIXR event shown on your ticket.'); return; }
+    if (step === 0 && (!event || !visibleOxfordEvents().some(item => item.id === event.id))) { setError('Choose an upcoming FIXR event shown on your ticket.'); return; }
     if (step === 1 && (!proof || !ticketType.trim() || priceInCents(price) === null || Number(price) > 500)) {
       setError('Add a screenshot, ticket type and GBP price from £0.01 to £500.00.'); return;
     }
     setStep(step + 1);
   }
   async function submit() {
-    if (submitting.current || !event || !proof || !confirmed || priceInCents(price) === null) return;
+    if (submitting.current || !event || !visibleOxfordEvents().some(item => item.id === event.id) || !proof || !confirmed || priceInCents(price) === null) return;
     submitting.current = true; setBusy(true); setError('');
     try {
       await save({ ...state, listings: [{
         id: `oxford-${Date.now()}`,
         event: { id: event.id, title: event.title, venue: event.venue,
-          startAt: `${event.date}T23:59:59.000Z`, dateOnly: true, sourceUrl: event.url },
+          startAt: event.startAt ?? `${event.date}T23:59:59.000Z`, dateOnly: !event.startAt, timezone: 'Europe/London', sourceUrl: event.url },
         provider: 'FIXR', ticketType: ticketType.trim(), price: priceInCents(price)! / 100,
         currency: 'GBP', status: 'draft_review', createdAt: new Date().toISOString(),
       }, ...state.listings] });
@@ -66,13 +66,14 @@ export function OxfordSellScreen({ navigation }: NativeStackScreenProps<RootStac
     {step === 0 && <>
       <Card><Copy>FIXR / OXFORD PILOT</Copy><Copy>Pick from public FIXR listings checked on 24 October. This does not prove your ticket can be transferred; check the transfer button in your FIXR booking.</Copy></Card>
       <Field label="Search Oxford events" value={query} onChangeText={setQuery} placeholder="Event or venue" />
+      {!query.trim() && <Copy>Showing the next 12. Search by name or venue to match any event in the Oxford catalogue.</Copy>}
       {events.map(item => <Pressable key={item.id} accessibilityRole="radio" accessibilityState={{ checked: event?.id === item.id }} onPress={() => setEvent(item)} style={{ flexDirection: 'row', gap: 12, padding: 15, borderWidth: 1.5, borderColor: event?.id === item.id ? colors.coral : colors.border, backgroundColor: colors.surface, borderRadius: 16 }}>
         <View style={{ width: 42, height: 46, borderRadius: 10, backgroundColor: colors.coral, alignItems: 'center', justifyContent: 'center' }}><Text style={[type.mono, { color: colors.ink }]}>{item.date.slice(8)}</Text></View>
         <View style={{ flex: 1, gap: 3 }}><Text style={[type.bodyStrong, { color: colors.textPrimary }]}>{item.title}</Text><Text style={[type.monoSmall, { color: colors.textSecondary }]}>{item.venue} · {item.date}</Text></View>
         <Text style={{ color: colors.textPrimary }}>{event?.id === item.id ? '●' : '○'}</Text>
       </Pressable>)}
       {!events.length && <Copy>No matching future pilot event. Open the official FIXR event page and contact us to add it.</Copy>}
-      {event && <Action label="Check this event on FIXR ↗" secondary onPress={() => void Linking.openURL(event.url)} />}
+      {event && <><Image source={{ uri: event.imageUrl }} resizeMode="cover" style={{ width: '100%', height: 160, borderRadius: 14 }} accessibilityLabel={`${event.title} organiser artwork via FIXR`} /><Action label="Check this event on FIXR ↗" secondary onPress={() => void Linking.openURL(event.url)} /></>}
     </>}
     {step === 1 && <>
       <Card><Copy>{event?.title}</Copy><Copy>{event?.venue} · {event?.date}</Copy></Card>

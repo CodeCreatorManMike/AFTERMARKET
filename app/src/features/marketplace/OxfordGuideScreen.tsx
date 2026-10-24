@@ -59,14 +59,15 @@ export function OxfordGuideScreen({ navigation }: NativeStackScreenProps<RootSta
     </View>)}
     {mode === 'sell' && <Action label="Attach my Oxford ticket →" onPress={() => navigation.navigate('OxfordSell')} />}
     {mode === 'buy' && <View style={[styles.notice, { backgroundColor: colors.limeSoft, borderColor: colors.border }]}><Text style={[type.bodyStrong, { color: colors.textPrimary }]}>Checkout is being connected</Text><Text style={[type.body, { color: colors.textSecondary }]}>Explore the events below. Buyer payment and ticket handover will open after review and Stripe setup.</Text></View>}
-    <View style={styles.catalogHeader}><Text style={[type.sectionTitle, { color: colors.textPrimary }]}>Oxford on FIXR</Text><Text style={[type.monoSmall, { color: colors.textSecondary }]}>PUBLIC LINKS / CHECKED 24 OCT</Text></View>
-    <Text style={[type.body, { color: colors.textSecondary }]}>A reviewed pilot selection from FIXR’s public pages. Times, availability, age rules and transfer permissions can change. Check the official event page.</Text>
+    <View style={styles.catalogHeader}><Text style={[type.sectionTitle, { color: colors.textPrimary }]}>Oxford on FIXR</Text><Text style={[type.monoSmall, { color: colors.textSecondary }]}>PUBLIC SNAPSHOT / CHECKED 24 OCT</Text></View>
+    <Text style={[type.body, { color: colors.textSecondary }]}>Browse the Oxford events, with FIXR artwork, venue, event time and a short organiser excerpt. Availability, age rules and transfer permissions can change.</Text>
     {!events.length && <View style={[styles.notice, { backgroundColor: colors.limeSoft, borderColor: colors.border }]}><Text style={[type.bodyStrong, { color: colors.textPrimary }]}>This pilot window has ended.</Text><Text style={[type.body, { color: colors.textSecondary }]}>The October catalogue is archived. Check FIXR for current Oxford events.</Text></View>}
-    {events.map(event => <Pressable key={event.id} accessibilityRole="link" onPress={() => void Linking.openURL(event.url)} style={[styles.eventCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
-      <View style={[styles.dateBadge, { backgroundColor: colors.coral }]}><Text style={[type.mono, { color: colors.ink }]}>{event.date.slice(8)}</Text><Text style={[type.monoSmall, { color: colors.ink }]}>OCT</Text></View>
-      <View style={{ flex: 1, gap: 3 }}><Text style={[type.bodyStrong, { color: colors.textPrimary }]}>{event.title}</Text><Text style={[type.monoSmall, { color: colors.textSecondary }]}>{event.venue} · {event.date}</Text>{event.note && <Text style={[type.monoSmall, { color: colors.coral }]}>{event.note}</Text>}</View>
+    {events.slice(0, 3).map(event => <Pressable key={event.id} accessibilityRole="link" onPress={() => void Linking.openURL(event.url)} style={[styles.eventCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      <Image source={{ uri: event.imageUrl }} style={styles.eventThumb} accessibilityLabel={`${event.title} organiser artwork via FIXR`} />
+      <View style={{ flex: 1, gap: 3 }}><Text style={[type.bodyStrong, { color: colors.textPrimary }]}>{event.title}</Text><Text style={[type.monoSmall, { color: colors.textSecondary }]}>{event.venue} · {event.date}</Text></View>
       <Text style={[type.bodyStrong, { color: colors.coral }]}>↗</Text>
     </Pressable>)}
+    <Action label={`Explore ${events.length} Oxford events →`} onPress={() => navigation.navigate('OxfordEvents')} />
     <Text style={[type.monoSmall, { color: colors.textSecondary }]}>FIXR transfer availability varies by organiser and ticket. FIXR says transfers may stop within an hour of the event and a ticket has a transfer limit.</Text>
   </ScrollView></Screen>;
 }
@@ -85,5 +86,5 @@ const styles = StyleSheet.create({
   notice: { borderWidth: 1, borderRadius: 18, padding: 18, gap: 8 },
   catalogHeader: { marginTop: 12, gap: 4 },
   eventCard: { flexDirection: 'row', gap: 12, padding: 12, borderWidth: 1, borderRadius: 15, alignItems: 'center' },
-  dateBadge: { width: 42, height: 48, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  eventThumb: { width: 58, height: 58, borderRadius: 10 },
 });

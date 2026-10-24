@@ -37,8 +37,9 @@ payments/escrow and provider transfer automation. See `docs/roadmap.md` Phase 3+
 audit log, expiry handler and SMTP notification outbox. It does not move money or tickets. See
 `backend/README.md` for the walkthrough and production gates.
 
-**Oxford Halloween pilot:** the app now has a branded buyer/seller guide, a dated selection of public
-FIXR Oxford event links, and a private local seller preview with event matching and screenshot selection.
+**Oxford Halloween pilot:** the app now has a branded buyer/seller guide, a searchable snapshot of 84 public
+FIXR Oxford events from 24 October to 1 November 2026, and a private local seller preview with exact event matching and screenshot selection.
+Event cards use FIXR-hosted organiser artwork and disappear when their published finish time passes.
 The screenshot is discarded on save. `backend/` has candidate FIXR mail checks and a Stripe signed-webhook
 integration seam; neither is connected to a live app checkout or mailbox. See
 [`docs/oxford-fixr-pilot.md`](docs/oxford-fixr-pilot.md) for the event sources and limits.
