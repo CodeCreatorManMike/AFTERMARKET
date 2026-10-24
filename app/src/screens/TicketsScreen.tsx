@@ -45,6 +45,7 @@ export function TicketsScreen() {
 
       <View style={[styles.page, { gap: 10, marginBottom: 18 }]} >
         <Action label="+ Sell a ticket" onPress={() => navigation.navigate('Sell')} />
+        <Action label="Oxford FIXR · how buying & selling works" secondary onPress={() => navigation.navigate('OxfordGuide')} />
         <Action label="My selling previews" secondary onPress={() => navigation.navigate('Listings')} />
         <Text style={[type.mono, { color: colors.textSecondary }]}>SAMPLE TICKETS · NOT PURCHASES ON YOUR ACCOUNT</Text>
         <TicketTabs

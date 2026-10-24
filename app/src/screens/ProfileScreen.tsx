@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/RootStack';
 import { useMarketplace } from '../features/marketplace/MarketplaceContext';
+import { NightPass } from '../features/marketplace/BrandVisuals';
 import { Action, Copy, Rewards } from '../features/marketplace/FlowUI';
 import { Screen } from '../components/common/Screen';
 import { ProfileIdentity } from '../components/profile/ProfileIdentity';
@@ -18,10 +19,7 @@ export function ProfileScreen() {
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-        <View style={{ backgroundColor: member?.accent === 'lime' ? '#C6FF3D' : '#FF5470', padding: 28, gap: 14 }}>
-          <Text style={{ color: '#14102B', fontSize: 48, fontFamily: 'Archivo_900Black' }}>{member?.name.slice(0, 2).toUpperCase() || 'AM'}</Text>
-          <Text style={{ color: '#14102B', fontFamily: 'IBMPlexMono_400Regular' }}>YOUR AFTERMARKET IDENTITY</Text>
-        </View>
+        <View style={{ padding: 20, paddingBottom: 0 }}><NightPass name={member?.name} accent={member?.accent} /></View>
         <View style={[styles.page, { gap: 18, paddingTop: 22 }]}>
           <ProfileIdentity username={member?.name ?? 'New member'} memberSince={new Date(member?.joined ?? Date.now()).toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' })} />
           {!!member?.bio && <Copy>{member.bio}</Copy>}

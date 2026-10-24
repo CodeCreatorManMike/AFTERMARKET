@@ -33,6 +33,16 @@ and FIXR/Fatsoma selling previews with event search/creation and screenshot sele
 **Not built yet:** real authentication/backend, public seller listings, moderation, secure ticket storage,
 payments/escrow and provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
 
+**FIXR transaction proof of concept:** `backend/` contains a local, operator-reviewed state machine,
+audit log, expiry handler and SMTP notification outbox. It does not move money or tickets. See
+`backend/README.md` for the walkthrough and production gates.
+
+**Oxford Halloween pilot:** the app now has a branded buyer/seller guide, a dated selection of public
+FIXR Oxford event links, and a private local seller preview with event matching and screenshot selection.
+The screenshot is discarded on save. `backend/` has candidate FIXR mail checks and a Stripe signed-webhook
+integration seam; neither is connected to a live app checkout or mailbox. See
+[`docs/oxford-fixr-pilot.md`](docs/oxford-fixr-pilot.md) for the event sources and limits.
+
 **Next up:** `MOCK-UPS/ui sprint 2/` has mockups for the next batch of screens — event detail /
 buy-resale-ticket flow, a single ticket's detail view, edit profile, and a past-event view — ready
 to build once assets are gathered (tracked against #36, #38, #39).

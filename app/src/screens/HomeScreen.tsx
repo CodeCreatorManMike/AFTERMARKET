@@ -9,8 +9,13 @@ import { CategoryScroller } from '../components/discovery/CategoryScroller';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { EventCard } from '../components/discovery/EventCard';
 import { featuredEvents } from '../data/events';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootStack';
+import { Action } from '../features/marketplace/FlowUI';
 
 export function HomeScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <Screen>
       <ScrollView
@@ -20,6 +25,7 @@ export function HomeScreen() {
         <View style={styles.page}>
           <HomeTopBar />
           <Hero />
+          <View style={{ marginVertical: 18 }}><Action label="Oxford Halloween · FIXR guide →" onPress={() => navigation.navigate('OxfordGuide')} /></View>
           <SearchField />
           <FilterRow />
           <CategoryScroller />

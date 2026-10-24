@@ -21,7 +21,7 @@ export function TicketOptionsScreen({
   navigation,
 }: {
   route: { params: { event: EventItem } };
-  navigation: { goBack: () => void };
+  navigation: { goBack: () => void; navigate: (screen: 'OxfordGuide') => void };
 }) {
   const { event } = route.params;
   const { colors, scheme } = useTheme();
@@ -180,12 +180,11 @@ export function TicketOptionsScreen({
         <View style={[styles.trustBanner, { backgroundColor: colors.surfaceRaised, borderColor: colors.border }]}>
           <ShieldCheckIcon size={26} color={colors.lime} />
           <View style={styles.trustText}>
-            <Text style={[styles.trustTitle, { color: colors.textPrimary }]}>Your money is safe</Text>
+            <Text style={[styles.trustTitle, { color: colors.textPrimary }]}>Payment protection is being built</Text>
             <Text style={[styles.trustBody, { color: colors.textSecondary }]}>
-              We hold your payment in escrow until the ticket transfer is confirmed. If there's an issue, you'll get a
-              full refund.
+              These are sample sellers. Checkout and ticket verification are not live yet. Learn how the planned transfer flow works before buying.
             </Text>
-            <Text style={[styles.trustLink, { color: colors.lime }]}>Learn more →</Text>
+            <Pressable accessibilityRole="button" onPress={() => navigation.navigate('OxfordGuide')}><Text style={[styles.trustLink, { color: colors.lime }]}>Learn more →</Text></Pressable>
           </View>
         </View>
       </ScrollView>

@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { OnboardingScreen } from '../features/marketplace/OnboardingScreen';
 import { SellScreen } from '../features/marketplace/SellScreen';
 import { ListingsScreen } from '../features/marketplace/ListingsScreen';
+import { OxfordGuideScreen } from '../features/marketplace/OxfordGuideScreen';
+import { OxfordSellScreen } from '../features/marketplace/OxfordSellScreen';
 import { useMarketplace } from '../features/marketplace/MarketplaceContext';
 import { MainTabs } from './MainTabs';
 import { TicketOptionsScreen } from '../screens/TicketOptionsScreen';
@@ -14,6 +16,8 @@ export type RootStackParamList = {
   Listings: undefined;
   EditProfile: undefined;
   TicketOptions: { event: EventItem };
+  OxfordGuide: undefined;
+  OxfordSell: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,6 +36,8 @@ export function RootStack() {
       <Stack.Screen name="Listings" component={ListingsScreen} />
       <Stack.Screen name="EditProfile">{({ navigation }) => <OnboardingScreen onDone={() => navigation.goBack()} />}</Stack.Screen>
       <Stack.Screen name="TicketOptions" component={TicketOptionsScreen} />
+      <Stack.Screen name="OxfordGuide" component={OxfordGuideScreen} />
+      <Stack.Screen name="OxfordSell" component={OxfordSellScreen} />
     </Stack.Navigator>
   );
 }
