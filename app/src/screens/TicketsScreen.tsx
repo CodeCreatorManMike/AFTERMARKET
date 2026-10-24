@@ -1,5 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/RootStack';
+import { useStartFlow } from '../features/marketplace/flows';
+import { Action } from '../features/marketplace/FlowUI';
 import { Screen } from '../components/common/Screen';
 import { useTheme } from '../theme/ThemeContext';
 import { type } from '../theme/typography';
@@ -12,6 +17,8 @@ import { assignStamps } from '../data/stampPlacement';
 import { MAIN_STAMP, SECONDARY_STAMP } from '../data/stamps';
 
 export function TicketsScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { startSell } = useStartFlow();
   const { colors, scheme } = useTheme();
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
 
@@ -38,7 +45,11 @@ export function TicketsScreen() {
         <SpinningStamp source={cornerStamp} size={68} />
       </View>
 
-      <View style={styles.page}>
+      <View style={[styles.page, { gap: 10, marginBottom: 18 }]} >
+        <Action label="+ Sell a ticket" onPress={() => startSell()} />
+        <Action label="How buying & selling works" secondary onPress={() => navigation.navigate('Guide', { mode: 'sell' })} />
+        <Action label="My listings" secondary onPress={() => navigation.navigate('Listings')} />
+        <Text style={[type.mono, { color: colors.textSecondary }]}>SAMPLE TICKETS · NOT PURCHASES ON YOUR ACCOUNT</Text>
         <TicketTabs
           active={tab}
           onChange={setTab}

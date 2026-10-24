@@ -26,8 +26,27 @@ and [`docs/roadmap.md`](docs/roadmap.md) — this section is a snapshot, not the
   - Profile screen — stats, following, real embroidered-patch badge artwork (scrollable, works
     for any number of earned badges)
 
-**Not built yet:** event-detail page, onboarding flow, any real backend (Supabase/auth/payments),
-provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
+**New interactive wireframe:** first-run account-choice onboarding, editable local profile, reward previews,
+and FIXR/Fatsoma selling previews with event search/creation and screenshot selection. See
+[`docs/onboarding-and-selling.md`](docs/onboarding-and-selling.md) for the flow, test coverage and production handoff.
+
+**Not built yet:** real authentication/backend, public seller listings, moderation, secure ticket storage,
+payments/escrow and provider transfer automation. See `docs/roadmap.md` Phase 3+ and the open GitHub issues for each.
+
+**FIXR transaction proof of concept:** `backend/` contains a local, operator-reviewed state machine,
+audit log, expiry handler and SMTP notification outbox. It does not move money or tickets. See
+`backend/README.md` for the walkthrough and production gates.
+
+**FIXR marketplace pilot (Oxford + Cape Town):** onboarding detects the member's country (UK → Oxford,
+South Africa → Cape Town) or lets them choose; Settings and the home filter change it. Home and Search show
+the city's FIXR events most in-demand first (sold out, scarcity, FIXR order) with working search, date and
+sold-out filters, and hide events after they finish. Buying and selling each show a short visual guide the
+first time. Sellers pick a FIXR event (or add a missing one), upload a screenshot that must contain a
+readable QR code (checked on the phone, never uploaded), get a default price from FIXR's last available
+price when the feed supplies it, then transfer the ticket on FIXR to the Aftermarket inbox. `backend/` has
+the per-city catalogue API, a Gmail IMAP transfer-email checker, workflow audit trail and a Stripe
+signed-webhook seam. See [`docs/fixr-inbox-setup.md`](docs/fixr-inbox-setup.md) and
+[`docs/oxford-fixr-pilot.md`](docs/oxford-fixr-pilot.md).
 
 **Next up:** `MOCK-UPS/ui sprint 2/` has mockups for the next batch of screens — event detail /
 buy-resale-ticket flow, a single ticket's detail view, edit profile, and a past-event view — ready

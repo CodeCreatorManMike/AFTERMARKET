@@ -23,7 +23,30 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Choose a ticket screenshot or an event image for Aftermarket.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Aftermarket to find nearby Oxford or Cape Town events. Your coordinates are not saved."
+        }
+      ],
+      "expo-image",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Aftermarket reads the QR code on ticket screenshots you choose. The camera is not used.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ]
     ]
   }
 }

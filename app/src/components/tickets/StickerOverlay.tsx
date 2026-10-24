@@ -10,7 +10,6 @@ export function StickerOverlay({ placements }: { placements: PlacedSticker[] }) 
           key={i}
           source={p.source}
           resizeMode="contain"
-          pointerEvents="none"
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
           style={[
@@ -36,6 +35,7 @@ export function StickerOverlay({ placements }: { placements: PlacedSticker[] }) 
 const styles = StyleSheet.create({
   sticker: {
     position: 'absolute',
+    pointerEvents: 'none',
     zIndex: 5,
   },
 });
