@@ -49,7 +49,7 @@ export function byPopularity(events: CatalogueEvent[]): CatalogueEvent[] {
 
 export type DateFilter = 'all' | 'today' | 'tomorrow' | 'weekend' | 'next7';
 export const DATE_FILTERS: { key: DateFilter; label: string }[] = [
-  { key: 'all', label: 'Any date' }, { key: 'today', label: 'Tonight' }, { key: 'tomorrow', label: 'Tomorrow' },
+  { key: 'all', label: 'Any date' }, { key: 'today', label: 'Today' }, { key: 'tomorrow', label: 'Tomorrow' },
   { key: 'weekend', label: 'This weekend' }, { key: 'next7', label: 'Next 7 days' },
 ];
 

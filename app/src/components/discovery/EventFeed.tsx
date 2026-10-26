@@ -39,7 +39,7 @@ export function EventFeed({ header, title }: { header?: React.ReactNode; title: 
       {!!error && <Text accessibilityRole="alert" style={[type.body, { color: colors.coral, marginBottom: 10 }]}>{error}</Text>}
       <View style={styles.heading}>
         <Text style={[type.sectionTitle, { color: colors.textPrimary }]}>{filtered ? `${results.length} ${results.length === 1 ? 'event' : 'events'}` : title}</Text>
-        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{CITIES[city].label.toUpperCase()} · FIXR · {live ? 'LIVE' : 'LATEST LIST'} · MOST IN-DEMAND FIRST</Text>
+        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{CITIES[city].label.toUpperCase()} · FIXR · {live ? 'PROVIDER FEED' : city === 'oxford' ? '24 OCT SNAPSHOT' : 'FEED PENDING'} · MOST IN-DEMAND FIRST</Text>
       </View>
     </View>}
     renderItem={({ item, index }) => <EventCard event={item} city={city} featured={index === 0 && !filtered} />}

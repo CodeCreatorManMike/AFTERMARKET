@@ -45,7 +45,7 @@ export function FilterRow({ city, onCity, date, onDate, soldOutOnly, onSoldOutOn
       {open === 'date' && <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.scrollOptions}>{DATE_FILTERS.map(item => chip(item.label, date === item.key, () => { onDate(item.key); setOpen(null); }))}</ScrollView>}
       {open === 'more' && <View style={styles.options}>
         {chip('Everything', !soldOutOnly, () => onSoldOutOnly(false))}
-        {chip('Sold out on FIXR', soldOutOnly, () => onSoldOutOnly(true))}
+        {chip('Sold out at last check', soldOutOnly, () => onSoldOutOnly(true))}
         {activeFilters > 0 && chip('Clear filters', false, () => { onDate('all'); onSoldOutOnly(false); setOpen(null); })}
       </View>}
     </View>

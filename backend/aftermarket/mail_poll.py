@@ -17,6 +17,7 @@ Run from the repository root:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import imaplib
 import json
 import os
@@ -24,7 +25,7 @@ import re
 from email import policy
 from email.parser import BytesParser
 
-from .mail_check import inspect_fixr_email
+from .mail_check import inspect_fixr_email, inspect_seller_link_email
 from .workflow import Workflow
 
 DKIM_PASS = re.compile(r"\bdkim=pass\b[^;]*?\bheader\.(?:d|i)=@?([A-Za-z0-9.-]+)", re.IGNORECASE)
@@ -47,14 +48,22 @@ def match_transfer_email(workflow: Workflow, raw: bytes, *, inbox: str,
                          authserv_id: str = "mx.google.com") -> list[dict]:
     """Compare one message with every listing awaiting a FIXR transfer."""
     dkim = trusted_dkim_domain(raw, authserv_id)
-    message_id = str(BytesParser(policy=policy.default).parsebytes(raw).get("Message-ID", "")).strip()[:200]
+    # A sender controls Message-ID; hash the complete message so a link or
+    # personal data can never enter the audit log through that header.
+    message_id = hashlib.sha256(raw).hexdigest()
     leads = []
     rows = workflow.db.execute(
-        "SELECT id,event_name FROM listings WHERE status='awaiting_transfer' AND provider='FIXR'").fetchall()
+        "SELECT id,event_name,seller_email FROM listings WHERE status='awaiting_transfer' AND provider='FIXR'").fetchall()
     for row in rows:
         signals = inspect_fixr_email(raw, inbox=inbox, event_title=row["event_name"], trusted_dkim_domain=dkim)
         if signals["candidate_for_review"]:
-            leads.append({"listing_id": row["id"], "message_id": message_id, **signals})
+            leads.append({"listing_id": row["id"], "message_id": message_id, "kind": "fixr_notice", **signals})
+            continue
+        signals = inspect_seller_link_email(raw, inbox=inbox, seller_email=row["seller_email"],
+                                            listing_id=row["id"], event_title=row["event_name"],
+                                            trusted_dkim_domain=dkim)
+        if signals["candidate_for_review"]:
+            leads.append({"listing_id": row["id"], "message_id": message_id, "kind": "seller_link", **signals})
     if len(leads) == 1:
         # Several matches (same event title) are ambiguous; leave them for an operator.
         workflow.record_transfer_lead(leads[0]["listing_id"], message_id, "mail_poll")
@@ -68,7 +77,7 @@ def poll_imap(workflow: Workflow, *, host: str, user: str, password: str, inbox:
     try:
         client.login(user, password)
         client.select("INBOX")
-        status, data = client.search(None, "UNSEEN", "FROM", '"fixr.co"')
+        status, data = client.search(None, "UNSEEN")
         if status != "OK":
             raise RuntimeError("IMAP search failed")
         for number in data[0].split():

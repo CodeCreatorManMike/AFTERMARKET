@@ -23,14 +23,14 @@ function steps(mode: Guide, currency: string): Step[] {
     { tag: 'MATCH', Icon: SearchIcon, title: 'Pick your FIXR event', detail: 'Choose the exact night from the FIXR list. Not there? Add it in a few details — we check new events before they go live.' },
     { tag: 'SCAN', Icon: QRIcon, title: 'Upload your ticket screenshot', detail: 'Use the full screenshot from FIXR with the QR code showing. We check for a readable QR code on your phone before you continue.' },
     { tag: 'PRICE', Icon: TicketIcon, title: 'Set your price', detail: `We start you at the event’s last available FIXR price in ${currency}. Change it if you want to.` },
-    { tag: 'TRANSFER', Icon: MailIcon, title: 'Transfer it on FIXR', detail: `In FIXR, open your booking, tap Transfer tickets and send it to ${inbox}. This is how your ticket gets verified.` },
-    { tag: 'VERIFIED', Icon: ShieldCheckIcon, title: 'We confirm it landed', detail: 'When the ticket shows up in Aftermarket’s FIXR account, your listing gets a verified badge and goes live.' },
-    { tag: 'PAID', Icon: BoltIcon, title: 'Sold, sent, paid', detail: 'A buyer pays by Apple Pay or card. We send them the ticket through FIXR, and you get paid once they have it.' },
+    { tag: 'TRANSFER', Icon: MailIcon, title: 'Share the FIXR transfer link', detail: `In FIXR, open your booking and tap Transfer tickets. Send the unique transfer link privately to ${inbox}. Keep the link out of public listings.` },
+    { tag: 'REVIEW', Icon: ShieldCheckIcon, title: 'We confirm it landed', detail: 'A transfer email starts a review. We must claim the link and check the ticket in the receiving FIXR account before calling it verified.' },
+    { tag: 'HANDOVER', Icon: BoltIcon, title: 'Buyer handover', detail: 'Checkout and payout are being connected. A ticket cannot be sold here until payment and transfer verification are live.' },
   ] : [
     { tag: 'FIND', Icon: SearchIcon, title: 'Find your sold-out night', detail: 'Browse the FIXR events in your city, sorted by demand. Sold-out nights come first.' },
-    { tag: 'VERIFIED', Icon: ShieldCheckIcon, title: 'Only verified spares', detail: 'Every ticket listed here has already been transferred into Aftermarket’s FIXR account, so we know it’s real before you pay.' },
-    { tag: 'PAY', Icon: TicketIcon, title: 'Pay by Apple Pay or card', detail: 'Pay securely through Stripe. Your payment is linked to this one ticket and is only released to the seller once you have it.' },
-    { tag: 'CLAIM', Icon: MailIcon, title: 'Claim it in FIXR', detail: 'We transfer the ticket to your FIXR email. Open the link on your own and claim it to your FIXR account.' },
+    { tag: 'REVIEW', Icon: ShieldCheckIcon, title: 'Look for reviewed spares', detail: 'We check the seller’s transfer in the receiving FIXR account before a ticket can be offered for sale.' },
+    { tag: 'PAY', Icon: TicketIcon, title: 'Pay by Apple Pay or card', detail: 'Stripe checkout is coming. When enabled, payment must match the exact order and ticket before a handover starts.' },
+    { tag: 'CLAIM', Icon: MailIcon, title: 'Claim it in FIXR', detail: 'Once payment is confirmed, you receive a private FIXR transfer link and claim the ticket to your own account.' },
     { tag: 'GO', Icon: QRIcon, title: 'Show up', detail: 'Your ticket and QR code are in FIXR under Your Bookings. Enjoy your night.' },
   ];
 }
@@ -66,7 +66,7 @@ export function GuideScreen({ navigation, route }: NativeStackScreenProps<RootSt
       <Image source={scheme === 'dark' ? SECONDARY_STAMP : MAIN_STAMP} accessible={false} style={[styles.heroStamp, { width: Math.min(110, width * 0.26), height: Math.min(110, width * 0.26) }]} />
       <Text style={[type.mono, { color: colors.lime }]}>{mode === 'sell' ? 'SELLING / HOW IT WORKS' : 'BUYING / HOW IT WORKS'}</Text>
       <Text style={[type.hero, styles.heroTitle, { color: colors.cream }]}>{mode === 'sell' ? 'YOUR SPARE.\nTHEIR NIGHT.' : 'SOLD OUT?\nNOT FOR YOU.'}</Text>
-      <Text style={[type.body, { color: colors.cream, opacity: 0.85 }]}>{mode === 'sell' ? 'List a FIXR ticket in about a minute. Verified by transfer, paid when it lands.' : 'Real tickets, already checked, for the nights that sold out on FIXR.'}</Text>
+      <Text style={[type.body, { color: colors.cream, opacity: 0.85 }]}>{mode === 'sell' ? 'Prepare your ticket, then share a private FIXR transfer link for review.' : 'Find your night and see how verified ticket handover will work.'}</Text>
     </View>
     <View style={styles.toggle} accessibilityRole="tablist">
       {(['sell', 'buy'] as const).map(value => <Pressable key={value} accessibilityRole="tab" accessibilityState={{ selected: mode === value }} onPress={() => setMode(value)}

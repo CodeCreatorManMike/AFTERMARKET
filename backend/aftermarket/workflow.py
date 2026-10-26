@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS stripe_events (
 
 
 TEMPLATES = {
-    "listing_approved": ("FIXR transfer step for your listing", "Listing {listing_id} passed initial review. If FIXR allows transfer, send its unique transfer link privately to {inbox}. We will confirm receipt in FIXR before listing the ticket. Do not publish or reuse the link."),
+    "listing_approved": ("FIXR transfer step for listing {listing_id}", "Listing {listing_id} passed initial review. If FIXR allows transfer, email its unique transfer link privately to {inbox} with the event name and this listing ID in the subject. We will confirm receipt in FIXR before listing the ticket. Do not publish or reuse the link."),
     "fixr_received": ("FIXR ticket receipt confirmed", "Listing {listing_id}: an operator confirmed the ticket in the receiving FIXR account. The listing can now be reviewed for sale."),
     "funds_held": ("Payment confirmed; FIXR handover next", "Order {order_id}: Stripe reported a successful payment. The ticket handover through FIXR is being prepared. Do not accept a ticket link from an unknown sender."),
     "transfer_pending": ("FIXR ticket transfer underway", "Order {order_id}: the receiving FIXR account reports a transfer was sent to you. Claim it in your own FIXR account. Do not share the unique link. Tell us once it appears in your bookings."),
@@ -133,7 +133,7 @@ class Workflow:
             subject, body = TEMPLATES[kind]
             self.db.execute(
                 "INSERT INTO notification_outbox(event_id,recipient,subject,body,created_at) VALUES(?,?,?,?,?)",
-                (event.lastrowid, recipient, subject, body.format(listing_id=listing_id, order_id=order_id,
+                (event.lastrowid, recipient, subject.format(listing_id=listing_id, order_id=order_id), body.format(listing_id=listing_id, order_id=order_id,
                     inbox=os.environ.get('AFTERMARKET_FIXR_INBOX', 'the pilot inbox shared by an operator')), now),
             )
 
@@ -184,7 +184,7 @@ class Workflow:
             self._event(listing_id, None, "fixr_received", actor, row["seller_email"], custody_evidence)
 
     def record_transfer_lead(self, listing_id: str, message_id: str, actor: str) -> bool:
-        """Log an authenticated FIXR email for operator review; once per message."""
+        """Log an authenticated FIXR or seller email for operator review; once per message."""
         evidence = f"email lead {_required(message_id, 'Message ID')}"
         with self._tx():
             row = self._row("listings", listing_id)

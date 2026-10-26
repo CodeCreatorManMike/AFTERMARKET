@@ -25,6 +25,14 @@
     "plugins": [
       "expo-font",
       [
+        "expo-build-properties",
+        {
+          "ios": {
+            "buildReactNativeFromSource": true
+          }
+        }
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "Choose a ticket screenshot or an event image for Aftermarket.",

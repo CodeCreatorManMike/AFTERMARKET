@@ -122,11 +122,11 @@ export function SellScreen({ navigation, route }: NativeStackScreenProps<RootSta
   const shown = custom ? null : event;
   const footer = step < 3
     ? <Action label={step === 2 ? busy ? 'Saving…' : 'List it — next, transfer →' : 'Continue →'} disabled={busy || (step === 1 && qr.state === 'checking') || (step === 2 && !confirmed)} onPress={step === 2 ? () => void submit() : next} />
-    : <Action label={busy ? 'Saving…' : 'I’ve transferred it on FIXR'} disabled={busy || !FIXR_INBOX} onPress={() => void markSent()} />;
+    : <Action label={busy ? 'Saving…' : 'I’ve shared the transfer link'} disabled={busy || !FIXR_INBOX} onPress={() => void markSent()} />;
 
   return <Flow step={step === 3 ? 'SELL / TRANSFER' : `SELL / 0${step + 1} OF 03`}
     title={['Find your night.', 'Show us your spare.', 'One last look.', 'Now send it on FIXR.'][step]}
-    subtitle={[`Choose the FIXR event on your ticket in ${place.label}.`, 'Add your ticket screenshot and set your price.', 'Check the details before listing.', 'Transferring your ticket to us is what verifies it. Your listing goes live once it lands.'][step]}
+    subtitle={[`Choose the FIXR event on your ticket in ${place.label}.`, 'Add your ticket screenshot and set your price.', 'Check the details before saving.', 'Share your private FIXR transfer link for review. Receipt in our FIXR account must be checked separately.'][step]}
     progress={step < 3 ? step + 1 : undefined} error={error} footer={footer}
     back={step === 3 ? () => navigation.replace('Listings') : () => { setError(''); setConfirmed(false); step ? setStep(step - 1) : navigation.goBack(); }}>
     {step === 0 && <>
@@ -142,14 +142,14 @@ export function SellScreen({ navigation, route }: NativeStackScreenProps<RootSta
         <Copy>New events are checked by our team before they appear for buyers.</Copy>
       </> : <>
         <Field label={`Search ${place.label} FIXR events`} value={query} onChangeText={setQuery} placeholder="Event or venue" autoCorrect={false} />
-        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{query.trim() ? `${results.length} MATCHES` : 'MOST IN-DEMAND FIRST'} · {live ? 'LIVE FIXR FEED' : 'FIXR LIST'}</Text>
+        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{query.trim() ? `${results.length} MATCHES` : 'MOST IN-DEMAND FIRST'} · {live ? 'PROVIDER FEED' : city === 'oxford' ? '24 OCT SNAPSHOT' : 'FEED PENDING'}</Text>
         {results.map(item => { const parts = eventDateParts(item, city); const selected = event?.id === item.id; return <Pressable key={item.id} accessibilityRole="radio" accessibilityState={{ checked: selected }} accessibilityLabel={`${item.title}, ${item.venue}, ${parts.day} ${parts.date} ${parts.month}`} onPress={() => setEvent(item)}
           style={{ flexDirection: 'row', gap: 12, padding: 10, borderWidth: 1.5, borderColor: selected ? colors.coral : colors.border, backgroundColor: selected ? colors.coralSoft : colors.surface, borderRadius: 16, alignItems: 'center' }}>
           <RemoteImage source={{ uri: item.imageUrl }} style={{ width: 56, height: 56, borderRadius: 10, backgroundColor: colors.ink }} contentFit="cover" accessible={false} />
           <View style={{ flex: 1, gap: 3 }}>
             <Text style={[type.bodyStrong, { color: colors.textPrimary }]} numberOfLines={2}>{item.title}</Text>
             <Text style={[type.monoSmall, { color: colors.textSecondary }]} numberOfLines={1}>{parts.day} {parts.date} {parts.month} · {item.venue}</Text>
-            {item.availabilityAtCheck === 'sold_out' && <Text style={[type.monoSmall, { color: colors.coral }]}>SOLD OUT ON FIXR · HIGH DEMAND</Text>}
+            {item.availabilityAtCheck === 'sold_out' && <Text style={[type.monoSmall, { color: colors.coral }]}>SOLD OUT AT LAST CHECK · HIGH DEMAND</Text>}
           </View>
           <Text style={{ color: colors.textPrimary, fontSize: 18 }}>{selected ? '●' : '○'}</Text>
         </Pressable>; })}
@@ -167,7 +167,7 @@ export function SellScreen({ navigation, route }: NativeStackScreenProps<RootSta
     {step === 2 && <>
       <Card><Copy>{shown?.title ?? title}</Copy><Copy>{shown?.venue ?? venue}</Copy><Copy>FIXR · {ticketType}</Copy><Copy>{formatPrice((cents ?? 0) / 100, city)} · one ticket</Copy><Copy>✓ QR code found on your screenshot</Copy>{custom && <Copy>New event · our team checks it first</Copy>}</Card>
       <Action label={`${confirmed ? '✓' : '○'} This is my ticket and I can transfer it on FIXR`} secondary onPress={() => setConfirmed(!confirmed)} />
-      <Copy>Next you’ll transfer the ticket to Aftermarket on FIXR. It isn’t listed for buyers until it lands.</Copy>
+      <Copy>Next you’ll share the private FIXR transfer link. This local preview is not visible to buyers.</Copy>
     </>}
     {step === 3 && <>
       <Card>
@@ -175,13 +175,13 @@ export function SellScreen({ navigation, route }: NativeStackScreenProps<RootSta
         <Text selectable style={[type.sectionTitle, { color: colors.textPrimary }]}>{FIXR_INBOX || 'Inbox not configured yet'}</Text>
         {!!FIXR_INBOX && <Action label={copied ? '✓ Email copied' : 'Copy email address'} secondary onPress={() => void copyInbox()} />}
       </Card>
-      {['Open the FIXR app or fixr.co and go to Your Bookings.', `Open ${saved?.event.title ?? 'your booking'} and tap Transfer tickets.`, 'Paste our email address and confirm the transfer.', 'Come back here and tap “I’ve transferred it”.'].map((text, index) =>
+      {['Open the FIXR app or fixr.co and go to Your Bookings.', `Open ${saved?.event.title ?? 'your booking'} and tap Transfer tickets.`, 'Share the unique transfer link privately by email to the address above.', 'Come back here and tap “I’ve shared the transfer link”.'].map((text, index) =>
         <View key={text} style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start' }}>
           <View style={{ width: 32, height: 32, borderRadius: 10, backgroundColor: index % 2 ? colors.lime : colors.coral, alignItems: 'center', justifyContent: 'center' }}><Text style={[type.mono, { color: colors.ink }]}>{index + 1}</Text></View>
           <Text style={[type.body, { color: colors.textPrimary, flex: 1, paddingTop: 5 }]}>{text}</Text>
         </View>)}
       {saved?.event.sourceUrl && <Action label="Open this event on FIXR ↗" secondary onPress={() => void Linking.openURL(saved.event.sourceUrl!)} />}
-      <Copy>We match the transfer email from FIXR to your listing, then confirm the ticket in our FIXR account. You can do this later from My listings.</Copy>
+      <Copy>Sending the link is only the first step. An operator must claim it and confirm the ticket in our FIXR account. This preview does not submit a live listing.</Copy>
     </>}
   </Flow>;
 }
@@ -190,7 +190,7 @@ function QrStatus({ qr }: { qr: Qr }) {
   const { colors } = useTheme();
   if (qr.state === 'idle') return <Copy>Use the full screenshot from FIXR — the QR code, event name and ticket details all visible. It’s checked on your phone and never uploaded.</Copy>;
   const good = qr.state === 'done' && qr.ok;
-  const text = qr.state === 'checking' ? 'Checking for a QR code…' : qr.ok ? 'QR code found. Looks like a ticket.' : qr.reason;
+  const text = qr.state === 'checking' ? 'Checking for a QR code…' : qr.ok ? 'QR code found. Ticket authenticity still needs FIXR transfer review.' : qr.reason;
   return <View accessibilityLiveRegion="polite" style={{ borderRadius: 14, borderWidth: 1.5, padding: 14, borderColor: good ? colors.lime : qr.state === 'checking' ? colors.border : colors.coral, backgroundColor: good ? colors.limeSoft : colors.surface }}>
     <Text style={[type.bodyStrong, { color: colors.textPrimary }]}>{qr.state === 'checking' ? '…' : good ? '✓ ' : '✕ '}{text}</Text>
   </View>;

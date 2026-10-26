@@ -24,12 +24,12 @@ export function EventCard({ event, city, featured = false }: { event: CatalogueE
   const soldOut = event.availabilityAtCheck === 'sold_out';
   return (
     <Pressable onPress={() => navigation.navigate('Event', { eventId: event.id })} accessibilityRole="button"
-      accessibilityLabel={`${event.title}, ${event.venue}, ${parts.day} ${parts.date} ${parts.month}${soldOut ? ', sold out on FIXR' : ''}`}
+      accessibilityLabel={`${event.title}, ${event.venue}, ${parts.day} ${parts.date} ${parts.month}${soldOut ? ', sold out on FIXR at last check' : ''}`}
       style={({ pressed }) => [styles.card, { borderColor: colors.border, backgroundColor: colors.surfaceRaised, opacity: pressed ? 0.85 : 1 }]}>
       <View style={[styles.imageWrap, { height: featured ? Math.min(260, width * 0.62) : Math.min(190, width * 0.48), backgroundColor: colors.ink }]}>
         {failed ? <View style={styles.fallback}><Text style={[styles.fallbackText, { color: colors.lime }]}>FIXR / {CITIES[city].label.toUpperCase()}</Text></View>
           : <Image source={{ uri: event.imageUrl }} style={StyleSheet.absoluteFill} contentFit="cover" transition={150} onError={() => setFailed(true)} accessible={false} />}
-        {soldOut && <View style={[styles.badge, { backgroundColor: colors.coral }]}><Text style={[styles.badgeText, { color: colors.ink }]}>SOLD OUT ON FIXR</Text></View>}
+        {soldOut && <View style={[styles.badge, { backgroundColor: colors.coral }]}><Text style={[styles.badgeText, { color: colors.ink }]}>SOLD OUT AT LAST CHECK</Text></View>}
       </View>
       <View style={styles.meta} importantForAccessibility="no-hide-descendants">
         <View style={[styles.dateBadge, { borderRightColor: colors.border }]}>
@@ -40,7 +40,7 @@ export function EventCard({ event, city, featured = false }: { event: CatalogueE
         <View style={styles.info}>
           <Text style={[styles.title, { color: colors.textPrimary }]} numberOfLines={2}>{event.title}</Text>
           <Text style={[styles.venue, { color: colors.textSecondary }]} numberOfLines={1}>{event.venue} · {parts.time}</Text>
-          <Text style={[styles.tag, { color: soldOut ? colors.coral : colors.textMuted }]}>{soldOut ? 'FIND A RESALE SPARE →' : 'ON SALE ON FIXR · SELL A SPARE →'}</Text>
+          <Text style={[styles.tag, { color: soldOut ? colors.coral : colors.textMuted }]}>{soldOut ? 'CHECK FOR A RESALE SPARE →' : 'SELL A SPARE →'}</Text>
         </View>
       </View>
     </Pressable>

@@ -40,7 +40,7 @@ export function EventScreen({ navigation, route }: NativeStackScreenProps<RootSt
     <Pressable accessibilityRole="button" accessibilityLabel="Back" onPress={() => navigation.goBack()} style={styles.back} hitSlop={8}><BackArrowIcon color={colors.textPrimary} /></Pressable>
     <View style={[styles.poster, { height: Math.min(300, width * 0.7), backgroundColor: colors.ink }]}>
       {!failed && <Image source={{ uri: event.imageUrl }} style={StyleSheet.absoluteFill} contentFit="cover" onError={() => setFailed(true)} accessibilityLabel={`${event.title} artwork from FIXR`} />}
-      {soldOut && <View style={[styles.badge, { backgroundColor: colors.coral }]}><Text style={[styles.badgeText, { color: colors.ink }]}>SOLD OUT ON FIXR</Text></View>}
+      {soldOut && <View style={[styles.badge, { backgroundColor: colors.coral }]}><Text style={[styles.badgeText, { color: colors.ink }]}>SOLD OUT AT LAST CHECK</Text></View>}
     </View>
     <Text style={[type.mono, { color: colors.coral }]}>FIXR / {CITIES[city].label.toUpperCase()}</Text>
     <Text style={[type.pageTitle, { color: colors.textPrimary }]}>{event.title}</Text>
