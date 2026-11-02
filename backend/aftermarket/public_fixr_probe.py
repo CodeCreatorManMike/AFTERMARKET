@@ -8,6 +8,7 @@ stored, and a challenge is never solved or bypassed automatically.
 from __future__ import annotations
 
 import json
+import html
 import re
 from datetime import datetime, timezone
 from urllib.parse import urlparse
@@ -42,10 +43,10 @@ def _card(link, rank: int) -> dict:
 
 def _details(page, card: dict, city: str) -> dict:
     page.goto(card["url"], wait_until="domcontentloaded", timeout=30_000)
-    page.locator('script[type="application/ld+json"]').first.wait_for(timeout=15_000)
+    page.locator('script[type="application/ld+json"]').filter(has_text='"@type":"Event"').first.wait_for(state="attached", timeout=15_000)
     payloads = [json.loads(text) for text in page.locator('script[type="application/ld+json"]').all_text_contents()]
     event = next((item for item in payloads if item.get("@type") == "Event"), None)
-    if not event or event.get("name") != card["title"]:
+    if not event or html.unescape(event.get("name", "")) != card["title"]:
         raise ValueError(f"structured event data missing for {card['id']}")
     starts = datetime.fromisoformat(event["startDate"].replace("Z", "+00:00"))
     ends = datetime.fromisoformat(event["endDate"].replace("Z", "+00:00")) if event.get("endDate") else None
@@ -53,14 +54,20 @@ def _details(page, card: dict, city: str) -> dict:
         raise ValueError("FIXR event timestamp has no timezone")
     location = event.get("location") or {}
     address = location.get("address") or {}
-    address_text = ", ".join(str(address[key]).strip() for key in
+    address_text = ", ".join(html.unescape(str(address[key]).strip()) for key in
                              ("streetAddress", "addressLocality", "postalCode", "addressCountry") if address.get(key))
-    description = re.sub(r"\s+", " ", event.get("description") or "").strip()
+    description = re.sub(r"\s+", " ", html.unescape(event.get("description") or "")).strip()
     images = event.get("image") or []
     image = images[0] if isinstance(images, list) and images else images if isinstance(images, str) else None
     if image and urlparse(image).hostname == "fixr-cdn.fixr.co":
         card["imageUrl"] = image
-    return {**card, "date": starts.astimezone(ZoneInfo(CITY_TIMEZONES[city])).date().isoformat(),
+    availability = (event.get("offers") or {}).get("availability")
+    if availability == "https://schema.org/SoldOut":
+        card["availabilityAtCheck"] = "sold_out"
+    elif availability == "https://schema.org/InStock":
+        card["availabilityAtCheck"] = "on_sale"
+    return {**card, "title": html.unescape(event["name"]), "venue": html.unescape(location.get("name") or card["venue"]),
+            "date": starts.astimezone(ZoneInfo(CITY_TIMEZONES[city])).date().isoformat(),
             "startAt": starts.isoformat(), "endAt": ends.isoformat() if ends else None,
             "address": address_text or None, "description": description or None,
             "excerpt": (description[:197] + "…") if len(description) > 200 else (description or card["title"]),
@@ -81,6 +88,7 @@ def collect(city: str = "oxford", max_pages: int = 200) -> dict:
             for attempt in range(3):
                 try:
                     listing.locator('a[href*="/event/"]').first.wait_for(timeout=15_000)
+                    listing.get_by_role("button", name="All events", exact=True).wait_for(timeout=15_000)
                     break
                 except Exception:
                     if attempt == 2:
@@ -91,7 +99,8 @@ def collect(city: str = "oxford", max_pages: int = 200) -> dict:
                 current = [_card(links.nth(i), len(cards) + i + 1) for i in range(links.count())]
                 if not current:
                     raise ValueError("empty FIXR listing page")
-                cards.extend(current)
+                seen = {card["id"] for card in cards}
+                cards.extend(card for card in current if card["id"] not in seen)
                 print(f"{city} page {page_number}: {len(cards)} cards", flush=True)
                 next_button = listing.get_by_role("button", name="Next", exact=True).last
                 if next_button.is_disabled():
