@@ -69,6 +69,16 @@ class CatalogueTests(unittest.TestCase):
             self.catalogue.ingest(stale)
         self.assertEqual(len(self.catalogue.upcoming(datetime(2026, 10, 24, tzinfo=timezone.utc))["events"]), 1)
 
+    def test_public_prototype_requires_explicit_local_opt_in_and_is_labelled(self):
+        provisional = feed([event("123")])
+        provisional.update(rightsConfirmed=False, prototype=True)
+        with self.assertRaises(ValueError):
+            self.catalogue.ingest(provisional)
+        self.catalogue.ingest(provisional, allow_prototype=True)
+        result = self.catalogue.upcoming(datetime(2026, 10, 24, tzinfo=timezone.utc))
+        self.assertTrue(result["prototype"])
+        self.assertEqual(result["events"][0]["id"], "123")
+
 
 if __name__ == "__main__":
     unittest.main()

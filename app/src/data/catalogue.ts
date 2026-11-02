@@ -7,8 +7,8 @@ export type CatalogueEvent = OxfordFixrEvent & { fixrRank?: number | null; lastT
 export const CITIES: Record<City, {
   label: string; country: string; timezone: string; currency: 'GBP' | 'ZAR'; symbol: string; locale: string; fixrUrl: string; maxPrice: number;
 }> = {
-  oxford: { label: 'Oxford', country: 'United Kingdom', timezone: 'Europe/London', currency: 'GBP', symbol: '£', locale: 'en-GB', fixrUrl: 'https://fixr.co/city/oxford', maxPrice: 500 },
-  cape_town: { label: 'Cape Town', country: 'South Africa', timezone: 'Africa/Johannesburg', currency: 'ZAR', symbol: 'R', locale: 'en-ZA', fixrUrl: 'https://fixr.co/city/cape-town', maxPrice: 10000 },
+  oxford: { label: 'Oxford', country: 'United Kingdom', timezone: 'Europe/London', currency: 'GBP', symbol: '£', locale: 'en-GB', fixrUrl: 'https://fixr.co/cities/oxford', maxPrice: 500 },
+  cape_town: { label: 'Cape Town', country: 'South Africa', timezone: 'Africa/Johannesburg', currency: 'ZAR', symbol: 'R', locale: 'en-ZA', fixrUrl: 'https://fixr.co/cities/cape-town', maxPrice: 10000 },
 };
 
 export function localDate(now: Date, timezone: string): string {

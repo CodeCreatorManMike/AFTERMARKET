@@ -78,5 +78,6 @@ test('feed URL is built per city and requires HTTPS', () => {
   assert.equal(feedUrl('https://api.example/v1/catalogue/', 'cape_town'), 'https://api.example/v1/catalogue/cape_town');
   assert.equal(feedUrl('https://api.example/v1/catalogue/oxford', 'cape_town'), 'https://api.example/v1/catalogue/cape_town');
   assert.equal(feedUrl('http://api.example/v1/catalogue', 'oxford'), null);
+  assert.equal(feedUrl('http://127.0.0.1:4243/v1/catalogue', 'oxford'), 'http://127.0.0.1:4243/v1/catalogue/oxford');
   assert.equal(feedUrl(undefined, 'oxford'), null);
 });

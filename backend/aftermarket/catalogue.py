@@ -150,14 +150,17 @@ class Catalogue:
             self.db.execute("ALTER TABLE catalogue_events ADD COLUMN last_ticket_price REAL")
         if "city" not in {row[1] for row in self.db.execute("PRAGMA table_info(catalogue_imports)")}:
             self.db.execute("ALTER TABLE catalogue_imports ADD COLUMN city TEXT NOT NULL DEFAULT 'oxford'")
+        if "prototype" not in {row[1] for row in self.db.execute("PRAGMA table_info(catalogue_imports)")}:
+            self.db.execute("ALTER TABLE catalogue_imports ADD COLUMN prototype INTEGER NOT NULL DEFAULT 0")
 
     def close(self):
         self.db.close()
 
-    def ingest(self, feed: dict) -> dict:
+    def ingest(self, feed: dict, *, allow_prototype: bool = False) -> dict:
         """Atomically upsert an authorised complete provider snapshot by source ID."""
         city = feed.get("city")
-        if feed.get("source") != "fixr" or city not in CITY_TIMEZONES or feed.get("rightsConfirmed") is not True:
+        prototype = feed.get("prototype") is True and allow_prototype
+        if feed.get("source") != "fixr" or city not in CITY_TIMEZONES or not (feed.get("rightsConfirmed") is True or prototype):
             raise ValueError("a rights-confirmed FIXR feed for a supported city is required")
         supplied_at = _iso(feed.get("suppliedAt"), "suppliedAt").isoformat()
         if datetime.fromisoformat(supplied_at) > datetime.now(timezone.utc):
@@ -202,7 +205,7 @@ class Catalogue:
                 incoming = {event["id"] for event in events}
                 for identifier in existing - incoming:
                     self.db.execute("UPDATE catalogue_events SET active=0 WHERE source='fixr' AND city=? AND source_id=?", (city, identifier))
-            self.db.execute("INSERT INTO catalogue_imports(source,city,imported_at,supplied_at,event_count) VALUES('fixr',?,?,?,?)", (city, now, supplied_at, len(events)))
+            self.db.execute("INSERT INTO catalogue_imports(source,city,imported_at,supplied_at,event_count,prototype) VALUES('fixr',?,?,?,?,?)", (city, now, supplied_at, len(events), int(prototype)))
         return {"imported": len(events), "new": sum(event["id"] not in existing for event in events)}
 
     def upcoming(self, now: datetime | None = None, city: str = "oxford") -> dict:
@@ -225,8 +228,9 @@ class Catalogue:
                            "address": row["address"], "url": row["url"], "imageUrl": row["image_url"],
                            "excerpt": row["excerpt"], "description": row["description"], "availabilityAtCheck": row["availability"],
                            "fixrRank": row["fixr_rank"], "lastTicketPrice": row["last_ticket_price"]})
-        latest = self.db.execute("SELECT supplied_at FROM catalogue_imports WHERE city=? ORDER BY id DESC LIMIT 1", (city,)).fetchone()
-        return {"source": "fixr", "city": city, "suppliedAt": latest[0] if latest else None, "events": events}
+        latest = self.db.execute("SELECT supplied_at,prototype FROM catalogue_imports WHERE city=? ORDER BY id DESC LIMIT 1", (city,)).fetchone()
+        return {"source": "fixr", "city": city, "suppliedAt": latest[0] if latest else None,
+                "prototype": bool(latest[1]) if latest else False, "events": events}
 
     def venue_history(self, city: str = "oxford") -> list[dict]:
         return [dict(row) for row in self.db.execute("""SELECT v.name,v.address,COUNT(e.source_id) AS occurrences,
@@ -240,11 +244,11 @@ class Catalogue:
             ORDER BY occurrences DESC,s.title""")]
 
 
-def ingest_file(database: str | Path, path: str | Path) -> dict:
+def ingest_file(database: str | Path, path: str | Path, *, allow_prototype: bool = False) -> dict:
     with open(path, encoding="utf-8") as handle:
         feed = json.load(handle)
     catalogue = Catalogue(database)
     try:
-        return catalogue.ingest(feed)
+        return catalogue.ingest(feed, allow_prototype=allow_prototype)
     finally:
         catalogue.close()

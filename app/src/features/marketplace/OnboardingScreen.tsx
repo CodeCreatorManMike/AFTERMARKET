@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Platform, Text } from 'react-native';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import { Action, Choice, ChoiceRow, Field, Flow, Rewards } from './FlowUI';
 import { NightPass } from './BrandVisuals';
 import { AuthMethod, validContact } from './model';
@@ -8,6 +9,7 @@ import { useTheme } from '../../theme/ThemeContext';
 import { type } from '../../theme/typography';
 import { CITIES, City, deviceCity } from '../../data/catalogue';
 import { locateCity } from './locate';
+import { GoogleSignIn, googleConfigured } from './GoogleSignIn';
 
 export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
   const { state, save, error: loadError } = useMarketplace();
@@ -24,6 +26,21 @@ export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
   const [citySource, setCitySource] = useState<'location' | 'manual'>(state.member?.citySource ?? 'manual');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [appleAvailable, setAppleAvailable] = useState(false);
+  useEffect(() => { if (Platform.OS === 'ios') void AppleAuthentication.isAvailableAsync().then(setAppleAvailable).catch(() => setAppleAvailable(false)); }, []);
+  async function signInWithApple() {
+    setBusy(true); setError('');
+    try {
+      const credential = await AppleAuthentication.signInAsync({ requestedScopes: [AppleAuthentication.AppleAuthenticationScope.FULL_NAME, AppleAuthentication.AppleAuthenticationScope.EMAIL] });
+      if (!credential.identityToken) throw new Error('Apple returned no identity token');
+      const fullName = [credential.fullName?.givenName, credential.fullName?.familyName].filter(Boolean).join(' ');
+      if (fullName && !name.trim()) setName(fullName);
+      setAuthenticated(true);
+    } catch (cause) {
+      if ((cause as { code?: string }).code !== 'ERR_REQUEST_CANCELED') setError('Apple sign-in did not complete. Please try again on an iPhone with Apple Sign In enabled.');
+    } finally { setBusy(false); }
+  }
   async function finish() {
     setBusy(true); setError('');
     try {
@@ -33,6 +50,9 @@ export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
     finally { setBusy(false); }
   }
   function next() {
+    if (step === 0 && (method === 'Apple' || method === 'Google') && !authenticated) {
+      setError(`Complete ${method} sign-in before continuing.`); return;
+    }
     if (step === 0 && !validContact(method, contact)) {
       setError(method === 'Email' ? 'Enter a valid email address.' : 'Use a country code, for example +27 82 123 4567.'); return;
     }
@@ -48,7 +68,7 @@ export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
     else setError(result.error);
     setBusy(false);
   }
-  function choose(option: AuthMethod) { setMethod(option); setContact(''); setError(''); }
+  function choose(option: AuthMethod) { setMethod(option); setAuthenticated(false); setContact(''); setError(''); }
   return (
     <Flow step={editing ? 'YOUR IDENTITY / EDIT PROFILE' : `YOUR ALL-ACCESS PASS / 0${step + 1}`} progress={editing ? undefined : step + 1} progressMax={editing ? 3 : 4}
       title={step === 0 ? 'Your next night\nstarts here.' : step === 1 ? 'Make it yours.' : step === 2 ? 'Your city.\nYour nights.' : 'Collect nights.\nNot just tickets.'}
@@ -56,12 +76,18 @@ export function OnboardingScreen({ onDone }: { onDone?: () => void }) {
       artwork={step < 2 ? <NightPass name={step === 1 ? name : undefined} accent={accent} /> : undefined}
       error={error || loadError}
       back={step > 0 ? () => { setError(''); editing && step === 1 ? onDone?.() : setStep(step - 1); } : undefined}
-      footer={<Action label={busy ? 'Please wait…' : editing ? 'Save my profile' : step === 0 ? `Try ${method} setup →` : step === 1 ? 'Next: choose your city →' : step === 2 ? 'Next: your collection →' : 'Find my next night →'} disabled={busy} onPress={next} />}>
+      footer={<Action label={busy ? 'Please wait…' : editing ? 'Save my profile' : step === 0 ? 'Next: make it yours →' : step === 1 ? 'Next: choose your city →' : step === 2 ? 'Next: your collection →' : 'Find my next night →'} disabled={busy} onPress={next} />}>
       {step === 0 && <>
         <ChoiceRow>{(['Apple', 'Google'] as AuthMethod[]).map(option => <Choice key={option} label={option} selected={method === option} onPress={() => choose(option)} />)}</ChoiceRow>
         <ChoiceRow>{(['Email', 'Phone'] as AuthMethod[]).map(option => <Choice key={option} label={option} selected={method === option} onPress={() => choose(option)} />)}</ChoiceRow>
         {(method === 'Email' || method === 'Phone') && <Field label={method === 'Email' ? 'Email address' : 'Phone number including country code'} value={contact} onChangeText={setContact} keyboardType={method === 'Email' ? 'email-address' : 'phone-pad'} autoCapitalize="none" autoCorrect={false} placeholder={method === 'Email' ? 'you@example.com' : '+27 82 123 4567'} maxLength={120} />}
-        <Text style={[type.mono, { color: colors.textSecondary }]}>Try the flow with sample details. No real account or sign-in message yet.</Text>
+        {method === 'Apple' && appleAvailable && <AppleAuthentication.AppleAuthenticationButton buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE} buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK} cornerRadius={12} style={{ height: 50, width: '100%' }} onPress={() => void signInWithApple()} />}
+        {method === 'Apple' && !appleAvailable && <Text style={[type.mono, { color: colors.textSecondary }]}>Apple sign-in requires a supported iPhone or iPad.</Text>}
+        {method === 'Google' && googleConfigured && <GoogleSignIn busy={busy} onSuccess={person => { if (person && !name.trim()) setName(person); setAuthenticated(true); setError(''); }} onError={setError} />}
+        {method === 'Google' && !googleConfigured && <Text style={[type.mono, { color: colors.textSecondary }]}>Google sign-in needs its OAuth client IDs and iOS URL scheme configured.</Text>}
+        {authenticated && <Text style={[type.mono, { color: colors.coral }]}>✓ {method.toUpperCase()} SIGN-IN COMPLETE</Text>}
+        {(method === 'Email' || method === 'Phone') && <Text style={[type.mono, { color: colors.textSecondary }]}>Email and phone are preview profiles. Verification messages are not connected yet.</Text>}
+        <Text style={[type.mono, { color: colors.textSecondary }]}>This is still a local profile. Provider identities are not yet linked to a server account.</Text>
       </>}
       {step === 1 && <>
         <Field label="Display name · required" value={name} onChangeText={setName} maxLength={30} autoCapitalize="words" placeholder="What should we call you?" />

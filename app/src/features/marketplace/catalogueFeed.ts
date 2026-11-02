@@ -1,13 +1,19 @@
 import type { CatalogueEvent, City } from '../../data/catalogue';
 
-export type CatalogueFeedResponse = { source: 'fixr'; city: City; suppliedAt: string; events: CatalogueEvent[] };
+export type CatalogueFeedResponse = { source: 'fixr'; city: City; suppliedAt: string; prototype?: boolean; events: CatalogueEvent[] };
+
+/** A missed daily import must never be presented as a current FIXR catalogue. */
+export function feedIsFresh(suppliedAt: string, now = Date.now()): boolean {
+  const age = now - Date.parse(suppliedAt);
+  return Number.isFinite(age) && age >= 0 && age <= 36 * 60 * 60 * 1000;
+}
 
 const optionalNumber = (value: unknown, max: number) => value === null || value === undefined || (typeof value === 'number' && Number.isFinite(value) && value > 0 && value <= max);
 
 export function validCatalogueResponse(value: unknown, city: City = 'oxford'): value is CatalogueFeedResponse {
   if (!value || typeof value !== 'object') return false;
   const feed = value as Record<string, unknown>;
-  if (feed.source !== 'fixr' || feed.city !== city || typeof feed.suppliedAt !== 'string' || !Number.isFinite(Date.parse(feed.suppliedAt)) || !Array.isArray(feed.events)) return false;
+  if (feed.source !== 'fixr' || feed.city !== city || typeof feed.suppliedAt !== 'string' || !Number.isFinite(Date.parse(feed.suppliedAt)) || (feed.prototype !== undefined && typeof feed.prototype !== 'boolean') || !Array.isArray(feed.events)) return false;
   const ids = new Set<string>();
   return feed.events.every((raw: unknown) => {
     if (!raw || typeof raw !== 'object') return false;
@@ -30,5 +36,5 @@ export function validCatalogueResponse(value: unknown, city: City = 'oxford'): v
 /** EXPO_PUBLIC_CATALOGUE_URL is the API base, e.g. https://host/v1/catalogue (a legacy …/oxford suffix is accepted). */
 export function feedUrl(base: string | undefined, city: City): string | null {
   const trimmed = base?.trim().replace(/\/+$/, '').replace(/\/(oxford|cape_town)$/, '');
-  return trimmed && /^https:\/\/[^/]+/.test(trimmed) ? `${trimmed}/${city}` : null;
+  return trimmed && (/^https:\/\/[^/]+/.test(trimmed) || /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\//.test(trimmed)) ? `${trimmed}/${city}` : null;
 }

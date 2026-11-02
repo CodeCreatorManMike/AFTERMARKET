@@ -2,12 +2,14 @@
   "expo": {
     "name": "AFTERMARKET",
     "slug": "aftermarket",
+    "scheme": "aftermarket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "bundleIdentifier": "com.codecreatormanmike.aftermarket"
     },
     "android": {
@@ -24,6 +26,7 @@
     },
     "plugins": [
       "expo-font",
+      "expo-apple-authentication",
       [
         "expo-build-properties",
         {

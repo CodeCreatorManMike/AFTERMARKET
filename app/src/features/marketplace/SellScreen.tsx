@@ -142,7 +142,7 @@ export function SellScreen({ navigation, route }: NativeStackScreenProps<RootSta
         <Copy>New events are checked by our team before they appear for buyers.</Copy>
       </> : <>
         <Field label={`Search ${place.label} FIXR events`} value={query} onChangeText={setQuery} placeholder="Event or venue" autoCorrect={false} />
-        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{query.trim() ? `${results.length} MATCHES` : 'MOST IN-DEMAND FIRST'} · {live ? 'PROVIDER FEED' : city === 'oxford' ? '24 OCT SNAPSHOT' : 'FEED PENDING'}</Text>
+        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{query.trim() ? `${results.length} MATCHES` : 'MOST IN-DEMAND FIRST'} · {live ? 'PROVIDER FEED' : 'FEED UNAVAILABLE'}</Text>
         {results.map(item => { const parts = eventDateParts(item, city); const selected = event?.id === item.id; return <Pressable key={item.id} accessibilityRole="radio" accessibilityState={{ checked: selected }} accessibilityLabel={`${item.title}, ${item.venue}, ${parts.day} ${parts.date} ${parts.month}`} onPress={() => setEvent(item)}
           style={{ flexDirection: 'row', gap: 12, padding: 10, borderWidth: 1.5, borderColor: selected ? colors.coral : colors.border, backgroundColor: selected ? colors.coralSoft : colors.surface, borderRadius: 16, alignItems: 'center' }}>
           <RemoteImage source={{ uri: item.imageUrl }} style={{ width: 56, height: 56, borderRadius: 10, backgroundColor: colors.ink }} contentFit="cover" accessible={false} />

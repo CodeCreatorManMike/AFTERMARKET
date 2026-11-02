@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 from .catalogue import CITY_TIMEZONES, Catalogue
+from .public_fixr_probe import collect
 
 
 def fetch_licensed_feed(url: str, token: str) -> dict:
@@ -51,6 +52,28 @@ def daily_import(database: str, feed_url: str, token: str, stop: threading.Event
             stop.wait(3600)
 
 
+def daily_prototype_import(database: str, stop: threading.Event):
+    """Local demo collection only; public-page browser changes may break it."""
+    while not stop.is_set():
+        try:
+            for city in CITY_TIMEZONES:
+                feed = collect(city)
+                catalogue = Catalogue(database)
+                try:
+                    result = catalogue.ingest(feed, allow_prototype=True)
+                finally:
+                    catalogue.close()
+                print(f"prototype {city} import: {result}", flush=True)
+            now = datetime.now(timezone.utc)
+            next_run = (now + timedelta(days=1)).replace(hour=6, minute=0, second=0, microsecond=0)
+            if now.hour < 6:
+                next_run -= timedelta(days=1)
+            stop.wait(max(60, (next_run - now).total_seconds()))
+        except Exception as exc:
+            print(f"prototype import failed: {exc}", flush=True)
+            stop.wait(3600)
+
+
 def serve(database: str, host: str = "127.0.0.1", port: int = 4243):
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
@@ -76,6 +99,8 @@ def serve(database: str, host: str = "127.0.0.1", port: int = 4243):
     feed_url, token = os.environ.get("AFTERMARKET_LICENSED_FIXR_FEED_URL"), os.environ.get("AFTERMARKET_LICENSED_FIXR_FEED_TOKEN")
     if feed_url and token:
         threading.Thread(target=daily_import, args=(database, feed_url, token, stop), daemon=True).start()
+    elif os.environ.get("AFTERMARKET_PUBLIC_FIXR_PROTOTYPE") == "1":
+        threading.Thread(target=daily_prototype_import, args=(database, stop), daemon=True).start()
     try:
         ThreadingHTTPServer((host, port), Handler).serve_forever()
     finally:

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Linking, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme/ThemeContext';
 import { type } from '../../theme/typography';
@@ -15,7 +15,7 @@ import { EventCard } from './EventCard';
 export function EventFeed({ header, title }: { header?: React.ReactNode; title: string }) {
   const { colors } = useTheme();
   const navigation = useNavigation();
-  const { city, events, live, refresh } = useCatalogue();
+  const { city, events, live, prototype, loading, suppliedAt, refresh } = useCatalogue();
   const setCity = useSetCity();
   const { startSell } = useStartFlow();
   const [query, setQuery] = useState('');
@@ -39,14 +39,14 @@ export function EventFeed({ header, title }: { header?: React.ReactNode; title: 
       {!!error && <Text accessibilityRole="alert" style={[type.body, { color: colors.coral, marginBottom: 10 }]}>{error}</Text>}
       <View style={styles.heading}>
         <Text style={[type.sectionTitle, { color: colors.textPrimary }]}>{filtered ? `${results.length} ${results.length === 1 ? 'event' : 'events'}` : title}</Text>
-        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{CITIES[city].label.toUpperCase()} · FIXR · {live ? 'PROVIDER FEED' : city === 'oxford' ? '24 OCT SNAPSHOT' : 'FEED PENDING'} · MOST IN-DEMAND FIRST</Text>
+        <Text style={[type.monoSmall, { color: colors.textSecondary }]}>{CITIES[city].label.toUpperCase()} · FIXR · {live ? `${prototype ? 'PROTOTYPE · ' : ''}UPDATED ${new Date(suppliedAt!).toLocaleDateString(CITIES[city].locale)}` : 'FEED UNAVAILABLE'} · MOST IN-DEMAND FIRST</Text>
       </View>
     </View>}
     renderItem={({ item, index }) => <EventCard event={item} city={city} featured={index === 0 && !filtered} />}
     ListEmptyComponent={<View style={[styles.empty, { borderColor: colors.border, backgroundColor: colors.surface }]}>
-      <Text style={[type.cardTitle, { color: colors.textPrimary }]}>{events.length ? 'Nothing matches those filters.' : `${CITIES[city].label} events are on their way.`}</Text>
-      <Text style={[type.body, { color: colors.textSecondary }]}>{events.length ? 'Try another date or clear your search.' : `We’re bringing the ${CITIES[city].label} FIXR list into Aftermarket. Got a ticket already? You can still list it.`}</Text>
-      {events.length ? <Action label="Clear filters" secondary onPress={() => { setQuery(''); setDate('all'); setSoldOutOnly(false); }} /> : <Action label="Sell a ticket" onPress={() => startSell()} />}
+      <Text style={[type.cardTitle, { color: colors.textPrimary }]}>{events.length ? 'Nothing matches those filters.' : loading ? 'Checking for current events…' : live ? 'No upcoming events in this feed.' : 'Current events are unavailable.'}</Text>
+      <Text style={[type.body, { color: colors.textSecondary }]}>{events.length ? 'Try another date or clear your search.' : live ? 'Check back later, or search FIXR for this city.' : 'The authorised FIXR feed has not connected. We only show current events confirmed by that feed.'}</Text>
+      {events.length ? <Action label="Clear filters" secondary onPress={() => { setQuery(''); setDate('all'); setSoldOutOnly(false); }} /> : <><Action label={loading ? 'Checking…' : 'Try again'} disabled={loading} secondary onPress={() => void refresh()} /><Action label={`Browse FIXR in ${CITIES[city].label} ↗`} secondary onPress={() => void Linking.openURL(CITIES[city].fixrUrl)} /><Action label="Sell a ticket" onPress={() => startSell()} /></>}
     </View>} />;
 }
 
